@@ -16,11 +16,6 @@ public class Platform extends Entities
     }
 
 
-    public void displayPlatform ()
-    {
-    }
-
-
     public Platform (int x, int y, String text)
     {
 	super (x, y);
