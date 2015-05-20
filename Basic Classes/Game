@@ -1,0 +1,58 @@
+public class Game{
+  
+  String name;
+  Sprite chosenSprite= new Sprite();
+  Score score=new Score();
+  int level;
+  int diffLevel;
+  public String getName(){
+    
+    return name;
+  }
+  public Sprite getChosenSprite(){
+    return chosenSprite;
+  }
+  
+  public Score getScore(){
+    return score;
+  }
+  public int getLevel(){
+    return level;
+  }
+  public int getDiffLevel(){
+    return diffLevel;
+  }
+  public void setName(String newName){
+    name=newName;
+  }
+  public void setChosenSprite(Sprite sprite){
+    chosenSprite=sprite;
+  }
+  public void setDifficultyLevel(int newDifficulty){
+    diffLevel=newDifficulty;
+  }public void setLevel(int newLevel){
+    level=newLevel();
+  }
+  
+  public void setScore(int newScore){
+    score=newScore;
+  }
+  public void pauseGame(){
+    
+  }
+  public boolean isLanded(){
+    
+  }
+  public boolean correctLanded(){
+    
+  }
+  public Game(String name, Sprite me, int score, int level, int diff){
+    this.name=name;
+    chosenSprite=me;
+    this.score= score;
+    this.level=level;
+    diffLevel=diff;
+    
+  }
+  
+}
