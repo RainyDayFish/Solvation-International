@@ -30,7 +30,7 @@ public class Platform extends Entities
     /* Description of setText ()
      * This method sets the text of the platform based on the String parameter passed.
      *
-     * @parameter newText A String that represents the text to be contained by a platform.
+     * @param newText A String that represents the text to be contained by a platform.
      */
     
   public void setText (String newText)
@@ -41,9 +41,9 @@ public class Platform extends Entities
     /*
      * This contructor creates a new PLatform object with it's coordinates on the screen, as well as the text, through passed parameters.
      *
-     * @parameter x An int representing the platform's x location on the screen.
-     * @parameter y An int representing the platform's y location on the screen.
-     * @parameter text A String representing the text contained by a platform, used for checking if a user has landed on a certain platform.
+     * @param x An int representing the platform's x location on the screen.
+     * @param y An int representing the platform's y location on the screen.
+     * @param text A String representing the text contained by a platform, used for checking if a user has landed on a certain platform.
      */
   
   public Platform (int x, int y, String text)
@@ -55,10 +55,10 @@ public class Platform extends Entities
     /*
      * This contructor creates a new PLatform object with it's coordinates on the screen, an image to represent the Platform, as well as the text, through passed parameters.
      *
-     * @parameter x An int representing the platform's x location on the screen.
-     * @parameter y An int representing the platform's y location on the screen.
-     * @parameter text A String representing the text contained by a platform, used for checking if a user has landed on a certain platform.
-     * @parameter image A BufferedImage which is used to represent the Platform object visually on the screen.
+     * @param x An int representing the platform's x location on the screen.
+     * @param y An int representing the platform's y location on the screen.
+     * @param text A String representing the text contained by a platform, used for checking if a user has landed on a certain platform.
+     * @param image A BufferedImage which is used to represent the Platform object visually on the screen.
      */
     
   public Platform (int x, int y, String text, BufferedImage image)
