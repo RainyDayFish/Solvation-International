@@ -11,8 +11,8 @@ import java.awt.*;
  * <b>Instance Variables:</b>
  * <p>
  * <b>difficulty</b> Stores an int value which represents the difficulty of the world.
- * <p>
- * <b>background</b> Stores a BufferedImage which is the background image to be used for the world.
+ //* <p>
+ //* <b>background</b> Stores a BufferedImage which is the background image to be used for the world.
  * <p>
  * <b>levels</b> Stores a List of GameLevels which are within the particular world, and are accessible to be played.
  */
@@ -46,16 +46,16 @@ public abstract class World
     return levels.get (levelNum);
   }
   
-  /* Description of getBackground ()
-   * A method which returns a BufferedImage which represents the world background.
-   * 
-   * @return A BufferedImage object representing the background.
-   */
+//  /* Description of getBackground ()
+ //  * A method which returns a BufferedImage which represents the world background.
+//   * 
+//   * @return A BufferedImage object representing the background.
+ //  */
   
-  public BufferedImage getBackground ()
-  {
-    return background;
-  }
+//  public BufferedImage getBackground ()
+// {
+  //  return background;
+//  }
   
   /* Description of getLevels ()
    * A method which returns a List of GameLevel objects which represents the various levels within a particular world.
@@ -75,7 +75,7 @@ public abstract class World
    * It also creates the platforms to be used within each level of the world.
    * 
    * @param difficulty An int value specifying the difficulty of the world's level.
-   * @param background A BufferedImage representing the background image used by the world.
+   //* @param background A BufferedImage representing the background image used by the world.
    * @param levels <GameLevel> A List of GameLevels which represents the various levels within the game.
    */
   
