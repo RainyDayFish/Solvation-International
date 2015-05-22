@@ -48,7 +48,7 @@ public class GameLevel
       }
       return low;
     }
-    public int highest(){
+    public int getHighest(){
          int high=platforms.get(0).getY();
     for(Platform a:platforms){
       if(a.getY()<high){
@@ -62,7 +62,7 @@ public class GameLevel
   public void cleanP(){
     for(Platform a:platforms){
       if(a.getY()>500){
-        a.setY(highest()-a.getY()+500);
+        a.setY(getHighest()-a.getY()+500);
       }
       
     }
