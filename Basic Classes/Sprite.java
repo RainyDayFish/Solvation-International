@@ -37,7 +37,7 @@ public class Sprite extends Entities
   /* Description of setTangibility ()
    * A method which accepts a boolean parameter which changes the tangibility of the Sprite object.
    * 
-   * @param A boolean value which represents the new value of isTangible.
+   * @param newTangibility A boolean value which represents the new value of isTangible.
    */
   
   public void setTangibility (boolean newTangibility)
@@ -45,21 +45,48 @@ public class Sprite extends Entities
     isTangible = newTangibility;
   }
   
+  /* Description of getIncrement ()
+   * A method which returns the double value representing the speed increment.
+   *
+   * @return The double value representing the speed increment.
+  */
   
   public double getIncrement ()
   {
     return increment;
   }
   
+    /* Description of setIncrement ()
+     * A method which allows the speed increment to be set to the value of a double parameter passed into the method.
+     * 
+     * @parameter newIncrement A double value which represents the new value of the speed increment.
+    */
   
   public void setIncrement (double newIncrement)
   {
     increment = newIncrement;
   }
+    
+    /* Description of incrementSpeed ()
+     * A method which increments the existing increment speed value by a double value passed into the method.
+     *
+     * @parameter addSpeed A double value which is added to the original increment speed to update/increment the old speed value.
+    */
   
   public void incrementSpeed (double addSpeed){
     increment += addSpeed;
   }
+    
+    /*
+    * The constructor creates a new instance of the Sprite class with various attributes which are passed into the constructor. The values passed
+    * into the constructor are used as the attributes of the new Sprite object.
+    *
+    * @parameter x An int value representing the x position of the Sprite within the game.
+    * @parameter y An int value representing the y position of the Sprite within the game.
+    * @parameter isTangible A boolean value which determines whether or not the Sprite object can go through walls or not, i.e. is "tangible"
+    * @parameter sprite A BufferedImage which is the visual representation of the sprite, or a picture of the sprite.
+    * @parameter increment A double value which represents the additional speed on top of the existing basic speed of all the characters.
+    */
   
   public Sprite (int x, int y, boolean isTangible, BufferedImage sprite, double increment)
   {

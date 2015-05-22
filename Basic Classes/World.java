@@ -37,7 +37,7 @@ public abstract class World
   /* Description of getLevel ()
    * A method which returns a particular GameLevel object contained within the world.
    * 
-   * @param An int specifying which level to return
+   * @param levelNum An int specifying which level to return
    * @return a GameLevel object at the specified index
    */
   
@@ -74,9 +74,9 @@ public abstract class World
    * 
    * It also creates the platforms to be used within each level of the world.
    * 
-   * @param An int value specifying the difficulty of the world's level.
-   * @param A BufferedImage representing the background image used by the world.
-   * @param A List of GameLevels which represents the various levels within the game.
+   * @param difficulty An int value specifying the difficulty of the world's level.
+   * @param background A BufferedImage representing the background image used by the world.
+   * @param levels <GameLevel> A List of GameLevels which represents the various levels within the game.
    */
   
   public World (int difficulty,  List < GameLevel > levels
