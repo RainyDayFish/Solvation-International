@@ -69,7 +69,7 @@ public class Score
     /* Description of setName ()
      * This method sets a new value of the player's name based on the String parameter passed in.
      *
-     * @parameter newName A String representing the new player name.
+     * @param newName A String representing the new player name.
      */
   
   public void setName (String newName)
@@ -80,7 +80,7 @@ public class Score
     /* Description of setScore ()
      * This method sets a new value of the player's score based on the int parameter passed in.
      *
-     * @parameter newScore An int representing the new player score.
+     * @param newScore An int representing the new player score.
      */
   
   public void setScore (int newScore)
@@ -92,7 +92,7 @@ public class Score
      * This method sets a new value of the difficulty level of the world played for the player based on the int
      * value passed into the method.
      *
-     * @parameter newScore An int representing the new difficulty level.
+     * @param newScore An int representing the new difficulty level.
      */
   
   
@@ -106,7 +106,7 @@ public class Score
      * This method sets a new value of the level played by the player based on the int
      * value passed into the method.
      *
-     * @parameter newLevel An int representing the new game level played by the user.
+     * @param newLevel An int representing the new game level played by the user.
      */
   
   
@@ -118,10 +118,10 @@ public class Score
     /*
      * The constructor creates a new Score object which has various attributes passed into the constructor as parameters, and are assigned to the instance variables of the new Score object.
      *
-     * @parameter name A String value representing the name of the player achieving the score.
-     * @parameter score An int value representing the actual score achieved by the player.
-     * @parameter difficulty An int value representing the difficulty level of the world chosen by the player.
-     * @parameter level An int value representing the level played by the player.
+     * @param name A String value representing the name of the player achieving the score.
+     * @param score An int value representing the actual score achieved by the player.
+     * @param difficulty An int value representing the difficulty level of the world chosen by the player.
+     * @param level An int value representing the level played by the player.
      */
   
   public Score (String name, int score, int difficulty, int level)
