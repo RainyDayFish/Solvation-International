@@ -41,8 +41,8 @@ public class Question
     /*
      * The constructor of the class which takes in two String parameters to initialize a new Question object with: the question and the answer.
      *
-     * @parameter question A String representing the question being asked.
-     * @parameter answer A String representing the answer to the question being asked.
+     * @param question A String representing the question being asked.
+     * @param answer A String representing the answer to the question being asked.
      */
   
   public Question (String question, String answer)
