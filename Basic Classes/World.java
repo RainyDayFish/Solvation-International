@@ -20,7 +20,7 @@ import java.awt.*;
 public abstract class World
 {
   private int difficulty;
-  private BufferedImage background;
+ // private BufferedImage background;
   private List < GameLevel > levels;
   
   /* Description of getDifficultyLevel ()
@@ -79,10 +79,12 @@ public abstract class World
    * @param A List of GameLevels which represents the various levels within the game.
    */
   
-  public World (int difficulty, BufferedImage background, List < GameLevel > levels)
+  public World (int difficulty,  List < GameLevel > levels
+//  BufferedImage background
+  )
   {
     this.difficulty = difficulty;
-    this.background = background;
+   // this.background = background;
     this.levels = levels;
     
     for (GameLevel i : levels){
