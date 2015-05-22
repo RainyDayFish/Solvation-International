@@ -7,7 +7,7 @@ public class GameLevel
   private double timeLimit;
   private BufferedImage background;
   private List < Platform > platforms;
-  
+  private List <Questions> questions;
   public int getLevelNum ()
   {
     return levelNum;
@@ -29,6 +29,9 @@ public class GameLevel
     return platforms;
   }
   
+  public List <Question> getQuestions(){
+    return questions;
+  }
   
   public void generatePlatforms (int difficultyLevel)
   {
