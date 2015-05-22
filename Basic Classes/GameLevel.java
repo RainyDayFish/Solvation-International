@@ -39,7 +39,7 @@ public class GameLevel
   public void removeP(int num){
     platforms.remove(num);
   }
-  public int lowest(){
+  public int getLowest(){
     int low=platforms.get(0).getY();
     for(Platform a:platforms){
       if(a.getY()<low){
