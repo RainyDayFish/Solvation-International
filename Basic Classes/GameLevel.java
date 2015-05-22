@@ -36,8 +36,20 @@ public class GameLevel
   public void generatePlatforms (int difficultyLevel)
   {
   }
-  
-  
+  public void removeP(int num){
+    platforms.remove(num);
+  }
+  public int lowest(){
+    int low=platforms.get(0).getY();
+    for(Platform a:platforms){
+      if(a.getY()<low){
+        low=a.getY();
+        
+      }
+      return low;
+    }
+    
+  }
   public GameLevel (int levelNum, double timeLimit, BufferedImage background)
   {
     this.levelNum = levelNum;
