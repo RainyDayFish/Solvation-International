@@ -1,5 +1,5 @@
 import java.util.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /* This class is instantiated to create the various worlds in which the user plays the game within. The difficulty level of the levels
  * within the world varies based on the difficulty level of the world.
@@ -20,7 +20,7 @@ import java.awt.*;
 public abstract class World
 {
   private int difficulty;
- // private BufferedImage background;
+  // private BufferedImage background;
   private List < GameLevel > levels;
   
   /* Description of getDifficultyLevel ()
@@ -31,7 +31,7 @@ public abstract class World
   
   public int getDifficultyLevel ()
   {
-    return difficultyLevel;
+    return difficulty;
   }
   
   /* Description of getLevel ()
@@ -47,10 +47,10 @@ public abstract class World
   }
   
 //  /* Description of getBackground ()
- //  * A method which returns a BufferedImage which represents the world background.
+  //  * A method which returns a BufferedImage which represents the world background.
 //   * 
 //   * @return A BufferedImage object representing the background.
- //  */
+  //  */
   
 //  public BufferedImage getBackground ()
 // {
@@ -81,10 +81,10 @@ public abstract class World
   
   public World (int difficulty,  List < GameLevel > levels
 //  BufferedImage background
-  )
+               )
   {
     this.difficulty = difficulty;
-   // this.background = background;
+    // this.background = background;
     this.levels = levels;
     
     for (GameLevel i : levels){

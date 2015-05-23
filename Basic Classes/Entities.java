@@ -1,4 +1,4 @@
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /* This abstract class is used to specify various common attributes and methods 
  * for various objects within the game, e.g. Sprites and Platforms.

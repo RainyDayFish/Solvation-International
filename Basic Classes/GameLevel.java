@@ -1,5 +1,5 @@
 import java.util.*;
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /* This class is used to instantiate various levels of the game for the user to play.
  * 
@@ -19,14 +19,14 @@ import java.awt.*;
  * <p>
  * <b>questions</b> A List of Question objects which are asked by the program and are answered by the user during the level.
  */
- 
+
 public class GameLevel
 {
   private int levelNum;
   private double timeLimit;
   private BufferedImage background;
   private List < Platform > platforms;
-  private List <Questions> questions;
+  private List <Question> questions;
   
   /* Description of getLevelNum ()
    * This method returns an int which represents the level number.
@@ -111,23 +111,24 @@ public class GameLevel
       if(a.getY()>low){
         low=a.getY();
       }
-      return low;
     }
-    
+    return low;
+  }
+  
   /* Description of getLowest ()
    * This method returns the y value of the highest Platform object within a List.
    *
    * @return An int which represents the y value of the highest Platform object within a List.
    */
-    
-    public int getHighest(){
-         int high=platforms.get(0).getY();
+  
+  public int getHighest(){
+    int high=platforms.get(0).getY();
     for(Platform a:platforms){
       if(a.getY()<high){
         high=a.getY();
       }
-      return high;
     }
+    return high;
   }
   
   /* Description of cleanPlatform ()
