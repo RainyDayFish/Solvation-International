@@ -10,15 +10,13 @@
  * <p>
  * <b>name</b> Stores a String which stores the name of the player who achieved the goal.
  * <p>
- * <b>level</b> An int value which represents the level within the game that the user is on.
- * <p>
  * <b>score</b> An int value representing their score, which depends on the player's progress through the game.
  */
 
 public class Score
 {
   private String name;
-  private int difficulty, level, score;
+  private int difficulty, score;
   
   /* Description of getName ()
    * Returns the String representing the name of the user who has achieved the score represented by a Score object.
@@ -40,18 +38,6 @@ public class Score
   public int getScore ()
   {
     return score;
-  }
-  
-  /* Description of getScore ()
-   * This method returns an int representing the level that the user is playing.
-   *
-   * @return An int representing the level of the game that the user is playing.
-   */
-  
-  
-  public int getLevel ()
-  {
-    return level;
   }
   
   /* Description of getScore ()
@@ -101,19 +87,6 @@ public class Score
     difficulty = newDifficulty;
   }
   
-  /* Description of setLevel ()
-   * This method sets a new value of the level played by the player based on the int
-   * value passed into the method.
-   *
-   * @param newLevel An int representing the new game level played by the user.
-   */
-  
-  
-  public void setLevel (int newLevel)
-  {
-    level = newLevel;
-  }
-  
   /*
    * The constructor creates a new Score object which has various attributes passed into the constructor as parameters, and are assigned to the instance variables of the new Score object.
    *
@@ -123,11 +96,10 @@ public class Score
    * @param level An int value representing the level played by the player.
    */
   
-  public Score (String name, int score, int difficulty, int level)
+  public Score (String name, int score, int difficulty)
   {
     this.name = name;
     this.score = score;
     this.difficulty = difficulty;
-    this.level = level;
   }
 }
