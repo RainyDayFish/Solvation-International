@@ -1,3 +1,8 @@
+
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
+import javax.swing.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 
@@ -107,15 +112,19 @@ public class GameLevel
       }
     }
     for(int f=0;f<questions.size();f++){
-      pic=ImageIO.read(new File(question.get(f).getAnswer()));
-       p=new Platform((int)Math.random()*640,(int)Math.random()*500,questions.get(f).getAnswer(),pic);
+      try{
+      pic=ImageIO.read(new File(questions.get(f).getAnswer()));
+      
+      p=new Platform((int)Math.random()*640,(int)Math.random()*500,questions.get(f).getAnswer(),pic);
             if(!exists(p)){
         platforms.add(p);
       }else{
         f--;
         
       }
+      }catch(IOException e){
       
+      }
     }
   }
     /* Description of inputQuestions ()
@@ -124,14 +133,14 @@ public class GameLevel
   public void inputQuestions(int diffLevel){
     try{
     BufferedReader open=new BufferedReader(new FileReader("Questions"+diffLevel+".txt"));
-    }catch(IOException e){
-      e.printStackTrace(System.out);
-    }
     String temp;
     String answer;
     while((temp=open.readLine())!=null){
       answer=open.readLine();
       questions.add(new Question(temp,answer));
+    }
+    }catch(IOException e){
+      e.printStackTrace(System.out);
     }
     
   }
