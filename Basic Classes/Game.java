@@ -1,15 +1,38 @@
 public class Game {
-  
+  /* This class is the game.
+ * 
+ * @author Ryan Jiang
+ * @version 1 05.22.16
+ * 
+ * <p>
+ * <b>Instance Variables:</b>
+ * <p>
+ * <b>player</b> A Player instance for the sprite and aspects of the charactor.
+ * <p>
+ * <b>world</b> The world they are playing in.
+ * <p>
+ * <b>time</b> The time limit the have to answer the questions.
+ * <p>
+ * <b>questionNum</b> The question they are currently on.
+ */
   Player player;
   World world;
   GameLevel currentLevel;
   int time;
   int questionNum = 0;
-  
+    /* Description of getPlayer()
+   * This method returns the player class.
+   *
+   * @return A Player for the current charactor.
+   */
   public Player getPlayer (){
     return player;
   }
-  
+    /* Description of getLevel ()
+   * This method returns the level the character is currently on.
+   *
+   * @return A Level object for the current level.
+   */
   public GameLevel getLevel(){
     return currentLevel;
   }
