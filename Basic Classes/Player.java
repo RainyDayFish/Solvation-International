@@ -25,7 +25,7 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Entities
 {
-  static final double MOVEMENT_SPEED = 0.95;
+  int speed = 10;
   static final int DEFAULT_LIVES = 3;
   
   private Score score;
@@ -60,7 +60,12 @@ public class Player extends Entities
    *
    * @return The double value representing the speed increment.
    */
-  
+  public void setSpeed(int speed){
+  this.speed=speed;
+  }
+  public int getSpeed(){
+  return speed;
+  }
   public double getIncrement ()
   {
     return increment;
