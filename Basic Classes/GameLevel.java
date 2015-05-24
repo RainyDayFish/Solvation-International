@@ -13,8 +13,6 @@ import java.awt.image.BufferedImage;
  * <p>
  * <b>timeLimit</b> A double which specifies the amount of time that the user has to complete the level.
  * <p>
- * <b>isUnlocked</b> A boolean value which specifies whether or not the level is locked, and as a result, whether the level can be played.
- * <p>
  * <b>background</b> A BufferedImage which is used to visually represent the level on the screen.
  * <p>
  * <b>platforms</b> A List of Platforms which contain the amount of Platforms within the level.
@@ -26,9 +24,8 @@ public class GameLevel
 {
   private int levelNum;
   private double timeLimit;
-  private boolean isUnlocked;
   private BufferedImage background;
-  private List <Platform> platforms;
+  private List < Platform > platforms;
   private List <Question> questions;
   
   /* Description of getLevelNum ()
@@ -51,17 +48,6 @@ public class GameLevel
   public double getTimeLimit ()
   {
     return timeLimit;
-  }
-  
-  /* Description of getIsUnlocked ()
-   * This method returns a boolean value which determines whether or not the level can be played.
-   *
-   * @return A boolean value which determines whether or not the level can be played.
-   */
-  
-  public double getIsUnlocked ()
-  {
-    return isUnlocked;
   }
   
   /* Description of getBackground ()
@@ -93,16 +79,6 @@ public class GameLevel
   
   public List <Question> getQuestions(){
     return questions;
-  }
-  
-  /* Description of setIsUnlocked ()
-   * This method sets a new value for the isUnlocked value, and thus locks/unlocks the level for the user.
-   * 
-   * @param newUnlocked A boolean value which represents whether or not the user can access the level or not.
-   */
-  
-  public void setIsUnlocked (boolean newUnLocked){
-    isUnlocked = newUnLocked;
   }
   
   /* Description of generatePlatforms ()
@@ -168,20 +144,18 @@ public class GameLevel
   }
   
   /* 
-   * This constructors creates a new GameLevel with the attributes of levelNum, the time limit, the playability of the level, and the background passed in as parameters
+   * This constructors creates a new GameLevel with the attributes of levelNum, the time limit and the background passed in as parameters
    * and are assigned to the instance variables.
    *
    * @param levelNum An int which represents the level number of the GameLevel.
    * @param timeLimit A double which represents the time limit the user has to complete the level.
-   * @param isUnlocked A boolean value which represents whether or not the level is playable by the user.
    * @param background A BufferedImage which visually represents the background onto the screen.
    */
   
-  public GameLevel (int levelNum, double timeLimit, boolean isUnlocked, BufferedImage background)
+  public GameLevel (int levelNum, double timeLimit, BufferedImage background)
   {
     this.levelNum = levelNum;
     this.timeLimit = timeLimit;
-    this.isUnlocked = isUnlocked
     this.background = background;
   }
 }
