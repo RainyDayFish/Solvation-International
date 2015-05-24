@@ -83,11 +83,16 @@ public class GameLevel
   
   /* Description of generatePlatforms ()
    * This method assigns values to the List of Platforms based on the difficulty level of the level.
+   *
+   * @param difficultyLevel An int which determines the amount of platforms to be added, as to adjust the level's difficulty level.
    */
   
   public void generatePlatforms (int difficultyLevel)
   {
-    platforms.add(new Platform((int)Math.random()*640,(int)Math.random()*500),""); 
+    for (int i = 0; i < 50 - (difficultyLevel + 5) * 2; i++)
+      platforms.add(new Platform((int)Math.random()*640,(int)Math.random()*500),"");
+      
+      //NEED TO ADD SOMETHING WHICH ADDS PLATFORMS WHICH ARE THE CORRECT ANSWERS TO THE QUESTIONS
   }
     /* Description of inputQuestions ()
    * This method assigns the values of questions from an external .txt file.
