@@ -86,19 +86,53 @@ public class GameLevel
    *
    * @param difficultyLevel An int which determines the amount of platforms to be added, as to adjust the level's difficulty level.
    */
-  
+  private boolean exists(Platform p){
+    for(Platform a:platforms){
+      if((a.getX()<p.getX()+50&&a.getX()>p.getX())&&(a.getY()<p.getY()+5&&a.getY()>p.getY())){
+        return true;
+      }
+      
+    }
+    return false;
+    
+  }
   public void generatePlatforms (int difficultyLevel)
   {
-    for (int i = 0; i < 50 - (difficultyLevel + 5) * 2; i++)
-      platforms.add(new Platform((int)Math.random()*640,(int)Math.random()*500),"");
+    Platform p;
+    BufferedImage pic;
+    for (int i = 0; i < 50 - (difficultyLevel + 5) * 2; i++){
+      p=new Platform((int)Math.random()*640,(int)Math.random()*500,"");
+      if(!exists(p)){
+        platforms.add(p);
+      }
+    }
+    for(int f=0;f<questions.size();f++){
+      pic=ImageIO.read(new File(question.get(f).getAnswer()));
+       p=new Platform((int)Math.random()*640,(int)Math.random()*500,questions.get(f).getAnswer(),pic);
+            if(!exists(p)){
+        platforms.add(p);
+      }else{
+        f--;
+        
+      }
       
-      //NEED TO ADD SOMETHING WHICH ADDS PLATFORMS WHICH ARE THE CORRECT ANSWERS TO THE QUESTIONS
+    }
   }
     /* Description of inputQuestions ()
    * This method assigns the values of questions from an external .txt file.
    */
-  public void inputQuestions(){
-    
+  public void inputQuestions(int diffLevel){
+    try{
+    BufferedReader open=new BufferedReader(new FileReader("Questions"+diffLevel+".txt"));
+    }catch(IOException e){
+      e.printStackTrace(System.out);
+    }
+    String temp;
+    String answer;
+    while((temp=open.readLine())!=null){
+      answer=open.readLine();
+      questions.add(new Question(temp,answer));
+    }
     
   }
   
