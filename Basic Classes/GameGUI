@@ -1,5 +1,5 @@
 public class GameGUI {
-  Game current=new Game();
+  Game current;
   
   public void GameGUI(){
     
@@ -28,7 +28,7 @@ public class GameGUI {
   }
   public void openGame(){
     
-  }public selectCharacter(){
+  }public void  selectCharacter(){
     
   }public void selectDiff(){
     
