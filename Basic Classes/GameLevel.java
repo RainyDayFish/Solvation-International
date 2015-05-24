@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 
 /* This class is used to instantiate various levels of the game for the user to play.
  * 
- * @author Atharva Washimkar
- * @version 1 05.22.15
+ * @author Ryan Jiang
+ * @version 1 05.22.16
  * 
  * <p>
  * <b>Instance Variables:</b>
@@ -28,7 +28,7 @@ import java.awt.image.BufferedImage;
 public class GameLevel
 {
   private int levelNum;
-  private double timeLimit;
+  private int timeLimit;
   private BufferedImage background;
   private List < Platform > platforms;
   private List <Question> questions;
@@ -50,7 +50,7 @@ public class GameLevel
    * @return A double value which represents the amount of time the user has to complete the level.
    */
   
-  public double getTimeLimit ()
+  public int getTimeLimit ()
   {
     return timeLimit;
   }
@@ -86,10 +86,11 @@ public class GameLevel
     return questions;
   }
   
-  /* Description of generatePlatforms ()
-   * This method assigns values to the List of Platforms based on the difficulty level of the level.
-   *
-   * @param difficultyLevel An int which determines the amount of platforms to be added, as to adjust the level's difficulty level.
+  
+  /* Description of exists ()
+   * This method checks whether the another platform already exists there or not.
+   *@return true or false depending on the platform in question.
+   * @param the platform in question.
    */
   private boolean exists(Platform p){
     for(Platform a:platforms){
@@ -101,6 +102,11 @@ public class GameLevel
     return false;
     
   }
+    /* Description of generatePlatforms ()
+   * This method assigns values and pictures to the List of Platforms based on the difficulty level of the level.
+   *
+   * @param difficultyLevel An int which determines the amount of platforms to be added, as to adjust the level's difficulty level.
+   */
   public void generatePlatforms (int difficultyLevel)
   {
     Platform p;
@@ -158,7 +164,7 @@ public class GameLevel
   /* Description of getLowest ()
    * This method returns the y value of the lowest Platform object within a List.
    *
-   * @return An int which represents the y value of the lowest Platform object within a List.
+   * @return An int which represents the highest y value which is also the lowest Platform object within a List.
    */
   
   public int getLowest (){
@@ -171,10 +177,10 @@ public class GameLevel
     return low;
   }
   
-  /* Description of getLowest ()
+  /* Description of getHighest ()
    * This method returns the y value of the highest Platform object within a List.
    *
-   * @return An int which represents the y value of the highest Platform object within a List.
+   * @return An int which represents the lowest y value which is the the highest Platform object within a List.
    */
   
   public int getHighest(){
