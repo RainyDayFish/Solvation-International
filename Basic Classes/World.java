@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
  * <b>levels</b> Stores a List of GameLevels which are within the particular world, and are accessible to be played.
  */
 
-public abstract class World
+public class World
 {
   private int difficulty;
   // private BufferedImage background;
