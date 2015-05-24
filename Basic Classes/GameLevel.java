@@ -87,6 +87,14 @@ public class GameLevel
   
   public void generatePlatforms (int difficultyLevel)
   {
+    platforms.add(new Platform((int)Math.random()*640,(int)Math.random()*500),""); 
+  }
+    /* Description of inputQuestions ()
+   * This method assigns the values of questions from an external .txt file.
+   */
+  public void inputQuestions(){
+    
+    
   }
   
   /* Description of removePlatform ()
