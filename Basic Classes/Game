@@ -1,8 +1,9 @@
+import java.util.*;
 public class Game{
   
   String name;
-  Sprite chosenSprite= new Sprite();
-  Score score=new Score();
+  Sprite chosenSprite;
+  Score score;
   int level;
   int diffLevel;
   World world;
@@ -36,10 +37,10 @@ public class Game{
   public void setDifficultyLevel(int newDifficulty){
     diffLevel=newDifficulty;
   }public void setLevel(int newLevel){
-    level=newLevel();
+    level=newLevel;
   }
   
-  public void setScore(int newScore){
+  public void setScore(Score newScore){
     score=newScore;
   }
   public void pauseGame(){
@@ -47,7 +48,7 @@ public class Game{
   }
   public int landedWhere(){
     int counter=0;
-    for(Platform a:world.getLevel(level).getPlatform()){
+    for(Platform a:world.getLevel(level).getPlatforms()){
       
       if(chosenSprite.getX()>=a.getX()&&chosenSprite.getX()<=a.getX()+30&&chosenSprite.getY()==a.getY()){
     return counter;
@@ -57,7 +58,7 @@ public class Game{
     return -1;
   }
   public boolean correctLanded(){
-    if (world.getLevel(level).getPlatform(). get(landedWhere()).getText.equals(world.getLevel(level).getQuestions().get(questionNum))){
+    if (world.getLevel(level).getPlatforms(). get(landedWhere()).getText().equals(world.getLevel(level).getQuestions().get(questionNum))){
     return true;
     }
   
@@ -92,7 +93,7 @@ time=(int)world.getLevel(level).getTimeLimit();
     }
     
     speed+=2;
-    world.getLevel(level).cleanP();
+    world.getLevel(level).cleanPlatform ();
     }
   }
   public void platShift(){
@@ -103,13 +104,17 @@ time=(int)world.getLevel(level).getTimeLimit();
       speed -=2;
     }
   }
-  public Game(String name, Sprite me, int score, int level, int diff){
+  public Game(String name, Sprite me, Score score, int level, int diff){
     this.name=name;
     chosenSprite=me;
     this.score= score;
     this.level=level;
     diffLevel=diff;
-    world=new World(int diff, new( level, 50-10.0*level));
+    List <GameLevel> levels=new ArrayList <GameLevel>();
+    levels.add(new GameLevel(level, 50-10.0*level*1,null ));
+    levels.add(new GameLevel(level, 50-10.0*level*2,null ));
+    levels.add(new GameLevel(level, 50-10.0*level*3,null ));
+    world=new World( diff, levels);
   }
   
 }
