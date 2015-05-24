@@ -1,7 +1,7 @@
 public class GameGUI {
   Game current=new Game();
   
-  public void GameGUI(){
+  public GameGUI(){
     
   }
   public void highScores(){
