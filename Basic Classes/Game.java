@@ -19,7 +19,7 @@ public final class Game {
   static GameLevel currentLevel;
   static int time;
   static int questionNum = 0;
-  
+  static JFrame f = new JFrame("Game");
   public static Player getPlayer (){
     return player;
   }
@@ -42,9 +42,9 @@ public final class Game {
   
   public static int landedWhere (){
     int counter = 0;
-    for(Platform a : world.getLevel (currentLevel.getLevelNum()-1).getPlatforms ()) {
+    for(Platform a : currentLevel.getPlatforms ()) {
       
-      if(player.getX () >= a.getX () && player.getX () <= a.getX () + 30 && player.getY () == a.getY ()) {
+      if(player.getX () >= a.getX ()-200 && player.getX () <= a.getX () + 250 && player.getY () > a.getY ()&&player.getY () < a.getY ()+20) {
         return counter;
       }
       counter++;
@@ -59,7 +59,7 @@ public final class Game {
     return false;
   }
   public static World getWorld(){
-  return world;
+    return world;
   }
   public static void main(String args[]){
     Game g=new Game();
@@ -68,19 +68,19 @@ public final class Game {
       BufferedImage back1=ImageIO.read(new File("Clouds.png"));
       List<GameLevel> levels=new ArrayList<GameLevel>();
       levels.add(new GameLevel(1, 5000, back1));
-      g=new Game(new Player(0, 0, true, character , 3), new World(1,  levels));
-   //   for(Platform a:Game.getLevel().getPlatforms()){
-    // System.out.println(a.getX());
-    //  }d
+      g=new Game(new Player(250, 0, true, character , 3), new World(1,  levels));
+      //   for(Platform a:Game.getLevel().getPlatforms()){
+      // System.out.println(a.getX());
+      //  }
       g.drawGame();
-    g.inGame();
+      g.inGame();
     }catch(IOException e){
-    
+      
     }
     
   }
   public static void drawGame(){
-    JFrame f = new JFrame("Game");
+    
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     f.add(new Draw());
     f.pack();
@@ -89,7 +89,7 @@ public final class Game {
   
   public static void inGame(){
     time=(int)currentLevel.getTimeLimit();
-    while(player.getLives()>0){
+    while(/*player.getLives()>0*/ true){
       time--;
       player.setY(player.getY()+player.getSpeed());
       if(landedWhere()>-1){
@@ -98,30 +98,33 @@ public final class Game {
           platShift();
         }else {
           player.setSpeed(player.getSpeed()*-1);
+          System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere());
         }
       }else{
-        if(player.getY()<=currentLevel.getLowest()+50){
+        if(player.getY()>=currentLevel.getLowest()+50){
           player.setLives(player.getLives()-1);
           player.setY(currentLevel.getLowest());
-          player.setSpeed(10);
+          player.setSpeed(50);
         }
       }
-      if(correctLanded()){
-        time=(int)currentLevel.getTimeLimit();
-      }else{
-        if (time<1){
-          player.setLives(player.getLives());
-          time=(int)currentLevel.getTimeLimit();
-        }
-      }
- 
+//      if(correctLanded()){
+//        time=(int)currentLevel.getTimeLimit();
+//      }else{
+//        if (time<1){
+//          player.setLives(player.getLives()-1);
+//          time=(int)currentLevel.getTimeLimit();
+//        }
+//      }
+      
       player.setSpeed(player.getSpeed()+2);
       currentLevel.cleanPlatform();
-     try {
-   Thread.sleep(500);
-   } catch (Exception e) {
-   System.out.println(e);
-   }
+      f.getContentPane().validate();
+      f.getContentPane().repaint();
+      try {
+        Thread.sleep(100);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
       
     }
     
@@ -146,6 +149,6 @@ public final class Game {
     this.currentLevel=world.getLevels().get(l);
   }
   public Game(){
-  
+    
   }
 }
