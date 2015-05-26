@@ -53,7 +53,7 @@ public final class Game {
   }
   
   public static boolean correctLanded(){
-    if (currentLevel.getPlatforms(). get(landedWhere()).getText().equals(currentLevel.getQuestions().get(questionNum))){
+    if (landedWhere()!=-1&&currentLevel.getPlatforms(). get(landedWhere()).getText().equals(currentLevel.getQuestions().get(questionNum))){
       return true;
     }
     return false;
@@ -71,8 +71,9 @@ public final class Game {
       g=new Game(new Player(0, 0, true, character , 3), new World(1,  levels));
    //   for(Platform a:Game.getLevel().getPlatforms()){
     // System.out.println(a.getX());
-    //  }
-    g.drawGame();
+    //  }d
+      g.drawGame();
+    g.inGame();
     }catch(IOException e){
     
     }
@@ -113,10 +114,17 @@ public final class Game {
           time=(int)currentLevel.getTimeLimit();
         }
       }
-      
+ 
       player.setSpeed(player.getSpeed()+2);
       currentLevel.cleanPlatform();
+     try {
+   Thread.sleep(500);
+   } catch (Exception e) {
+   System.out.println(e);
+   }
+      
     }
+    
   }
   
   public static void platShift(){
