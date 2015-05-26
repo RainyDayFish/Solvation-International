@@ -103,7 +103,8 @@ public final class Game {
       }else{
         if(player.getY()>=currentLevel.getLowest()+50){
           player.setLives(player.getLives()-1);
-          player.setY(currentLevel.getLowest());
+          player.setY(250);
+         // player.setX(currentLevel.getLowest());
           player.setSpeed(50);
         }
       }
@@ -116,7 +117,7 @@ public final class Game {
 //        }
 //      }
       
-      player.setSpeed(player.getSpeed()+2);
+      player.setSpeed(player.getSpeed()+5);
       currentLevel.cleanPlatform();
       f.getContentPane().validate();
       f.getContentPane().repaint();
