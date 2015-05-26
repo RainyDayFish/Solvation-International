@@ -92,11 +92,14 @@ public class GameLevel
    * @param p is the platform in question.
    */
   private boolean exists(Platform p){
+    if(p.getX()>650||p.getY()>725){
+    return true;
+    }
     for(Platform a:platforms){
-      if((a.getX()<p.getX()+50&&a.getX()>p.getX())&&(a.getY()<p.getY()+5&&a.getY()>p.getY())){
+      if((a.getX()<p.getX()+250&&a.getX()+250>p.getX())&&(a.getY()>p.getY()-25&&a.getY()-25<p.getY())){
         return true;
       }
-      
+     
     }
     return false;
     
@@ -106,7 +109,7 @@ public class GameLevel
     Platform p;
     BufferedImage pic;
     BufferedImage platPic;
-    for (int i = 0; i < 50 - (difficultyLevel + 5) * 2; i++){
+    for (int i = 0; i < 100 - (difficultyLevel * 25); i++){
       try{
         platPic=ImageIO.read(new File("Platform.png"));
         p=new Platform((int)(Math.random()*750),(int)(Math.random()*750),"",platPic);
