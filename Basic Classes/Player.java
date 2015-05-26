@@ -25,8 +25,9 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Entities
 {
-  private int speed = 10;
+  int speed = 10;
   static final int DEFAULT_LIVES = 3;
+  
   private Score score;
   private boolean isTangible;
   private double increment;
