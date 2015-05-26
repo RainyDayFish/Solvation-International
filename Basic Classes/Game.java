@@ -42,9 +42,12 @@ public final class Game {
   
   public static int landedWhere (){
     int counter = 0;
+    if(player.getSpeed()<0){
+    return -1;
+    }
     for(Platform a : currentLevel.getPlatforms ()) {
       
-      if(player.getX () >= a.getX ()-200 && player.getX () <= a.getX () + 250 && player.getY () > a.getY ()&&player.getY () < a.getY ()+20) {
+      if(player.getX () >= a.getX ()-100 && player.getX () <= a.getX () + 250 && player.getY () > a.getY ()&&player.getY () < a.getY ()+20) {
         return counter;
       }
       counter++;
