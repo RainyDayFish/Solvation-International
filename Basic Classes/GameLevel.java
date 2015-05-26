@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 
 /* This class is used to instantiate various levels of the game for the user to play.
  * 
- * @author Ryan Jiang
- * @version 1 05.22.16
+ * @author Atharva Washimkar
+ * @version 1 05.22.15
  * 
  * <p>
  * <b>Instance Variables:</b>
@@ -28,10 +28,10 @@ import java.awt.image.BufferedImage;
 public class GameLevel
 {
   private int levelNum;
-  private int timeLimit;
+  private double timeLimit;
   private BufferedImage background;
-  private List < Platform > platforms;
-  private List <Question> questions;
+  private List < Platform > platforms=new ArrayList<Platform>();
+  private List <Question> questions=new ArrayList<Question>();
   
   /* Description of getLevelNum ()
    * This method returns an int which represents the level number.
@@ -50,7 +50,7 @@ public class GameLevel
    * @return A double value which represents the amount of time the user has to complete the level.
    */
   
-  public int getTimeLimit ()
+  public double getTimeLimit ()
   {
     return timeLimit;
   }
@@ -86,11 +86,10 @@ public class GameLevel
     return questions;
   }
   
-  
-  /* Description of exists ()
-   * This method checks whether the another platform already exists there or not.
-   *@return true or false depending on the platform in question.
-   * @param the platform in question.
+  /* Description of exists()
+   * This method checks if the parameter platform is in the same location as another platform
+   *
+   * @param p is the platform in question.
    */
   private boolean exists(Platform p){
     for(Platform a:platforms){
@@ -102,49 +101,50 @@ public class GameLevel
     return false;
     
   }
-    /* Description of generatePlatforms ()
-   * This method assigns values and pictures to the List of Platforms based on the difficulty level of the level.
-   *
-   * @param difficultyLevel An int which determines the amount of platforms to be added, as to adjust the level's difficulty level.
-   */
   public void generatePlatforms (int difficultyLevel)
   {
     Platform p;
     BufferedImage pic;
+    BufferedImage platPic;
     for (int i = 0; i < 50 - (difficultyLevel + 5) * 2; i++){
-      p=new Platform((int)Math.random()*640,(int)Math.random()*500,"");
-      if(!exists(p)){
-        platforms.add(p);
+      try{
+        platPic=ImageIO.read(new File("Platform.png"));
+        p=new Platform((int)(Math.random()*750),(int)(Math.random()*750),"",platPic);
+        if(platforms.size()==0||!exists(p)){
+          // System.out.println(p.getX());
+          platforms.add(p);
+        }
+      }catch(IOException e){
       }
     }
     for(int f=0;f<questions.size();f++){
       try{
-      pic=ImageIO.read(new File(questions.get(f).getAnswer()));
-      
-      p=new Platform((int)Math.random()*640,(int)Math.random()*500,questions.get(f).getAnswer(),pic);
-            if(!exists(p)){
-        platforms.add(p);
-      }else{
-        f--;
+        pic=ImageIO.read(new File(questions.get(f).getAnswer()));
         
-      }
+        p=new Platform((int)(Math.random()*750),(int)(Math.random()*750),questions.get(f).getAnswer(),pic);
+        if(!exists(p)){
+          platforms.add(p);
+        }else{
+          f--;
+          
+        }
       }catch(IOException e){
-      
+        
       }
     }
   }
-    /* Description of inputQuestions ()
+  /* Description of inputQuestions ()
    * This method assigns the values of questions from an external .txt file.
    */
   public void inputQuestions(int diffLevel){
     try{
-    BufferedReader open=new BufferedReader(new FileReader("Questions"+diffLevel+".txt"));
-    String temp;
-    String answer;
-    while((temp=open.readLine())!=null){
-      answer=open.readLine();
-      questions.add(new Question(temp,answer));
-    }
+      BufferedReader open=new BufferedReader(new FileReader("Questions"+diffLevel+".txt"));
+      String temp;
+      String answer;
+      while((temp=open.readLine())!=null){
+        answer=open.readLine();
+        questions.add(new Question(temp,answer));
+      }
     }catch(IOException e){
       e.printStackTrace(System.out);
     }
@@ -164,7 +164,7 @@ public class GameLevel
   /* Description of getLowest ()
    * This method returns the y value of the lowest Platform object within a List.
    *
-   * @return An int which represents the highest y value which is also the lowest Platform object within a List.
+   * @return An int which represents the y value of the lowest Platform object within a List.
    */
   
   public int getLowest (){
@@ -177,10 +177,10 @@ public class GameLevel
     return low;
   }
   
-  /* Description of getHighest ()
+  /* Description of getLowest ()
    * This method returns the y value of the highest Platform object within a List.
    *
-   * @return An int which represents the lowest y value which is the the highest Platform object within a List.
+   * @return An int which represents the y value of the highest Platform object within a List.
    */
   
   public int getHighest(){
@@ -199,8 +199,8 @@ public class GameLevel
   
   public void cleanPlatform (){
     for(Platform a:platforms){
-      if(a.getY()>500){
-        a.setY(getHighest()-a.getY()+500);
+      if(a.getY()>750){
+        a.setY(getHighest()-a.getY()+750);
       }
     }
   }
@@ -219,5 +219,6 @@ public class GameLevel
     this.levelNum = levelNum;
     this.timeLimit = timeLimit;
     this.background = background;
+    generatePlatforms (levelNum);
   }
 }
