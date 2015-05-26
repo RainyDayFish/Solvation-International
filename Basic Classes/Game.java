@@ -1,55 +1,46 @@
-public class Game {
-  /* This class is the game.
- * 
- * @author Ryan Jiang
- * @version 1 05.22.16
- * 
- * <p>
- * <b>Instance Variables:</b>
- * <p>
- * <b>player</b> A Player instance for the sprite and aspects of the charactor.
- * <p>
- * <b>world</b> The world they are playing in.
- * <p>
- * <b>time</b> The time limit the have to answer the questions.
- * <p>
- * <b>questionNum</b> The question they are currently on.
- */
-  Player player;
-  World world;
-  GameLevel currentLevel;
-  int time;
-  int questionNum = 0;
-    /* Description of getPlayer()
-   * This method returns the player class.
-   *
-   * @return A Player for the current charactor.
-   */
-  public Player getPlayer (){
+import javax.swing.SwingUtilities;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.BorderFactory;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
+import javax.swing.*;
+import java.util.*;
+public final class Game {
+  
+  static Player player;
+  static World world;
+  static GameLevel currentLevel;
+  static int time;
+  static int questionNum = 0;
+  
+  public static Player getPlayer (){
     return player;
   }
-    /* Description of getLevel ()
-   * This method returns the level the character is currently on.
-   *
-   * @return A Level object for the current level.
-   */
-  public GameLevel getLevel(){
+  
+  public static GameLevel getLevel(){
     return currentLevel;
   }
   
-  public void setPlayer (Player newPlayer){
+  public static void setPlayer (Player newPlayer){
     player = newPlayer;
   }
   
-  public void setLevel(GameLevel newLevel){
+  public static void setLevel(GameLevel newLevel){
     currentLevel = newLevel;
   }
   
-  public void pauseGame(){
+  public static void pauseGame(){
     
   }
   
-  public int landedWhere (){
+  public static int landedWhere (){
     int counter = 0;
     for(Platform a : world.getLevel (currentLevel.getLevelNum()-1).getPlatforms ()) {
       
@@ -61,14 +52,41 @@ public class Game {
     return -1;
   }
   
-  public boolean correctLanded(){
+  public static boolean correctLanded(){
     if (currentLevel.getPlatforms(). get(landedWhere()).getText().equals(currentLevel.getQuestions().get(questionNum))){
       return true;
     }
     return false;
   }
+  public static World getWorld(){
+  return world;
+  }
+  public static void main(String args[]){
+    Game g=new Game();
+    try{
+      BufferedImage character=ImageIO.read(new File("dot.png"));
+      BufferedImage back1=ImageIO.read(new File("Clouds.png"));
+      List<GameLevel> levels=new ArrayList<GameLevel>();
+      levels.add(new GameLevel(1, 5000, back1));
+      g=new Game(new Player(0, 0, true, character , 3), new World(1,  levels));
+   //   for(Platform a:Game.getLevel().getPlatforms()){
+    // System.out.println(a.getX());
+    //  }
+    g.drawGame();
+    }catch(IOException e){
+    
+    }
+    
+  }
+  public static void drawGame(){
+    JFrame f = new JFrame("Game");
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    f.add(new Draw());
+    f.pack();
+    f.setVisible(true);
+  }
   
-  public void inGame(){
+  public static void inGame(){
     time=(int)currentLevel.getTimeLimit();
     while(player.getLives()>0){
       time--;
@@ -101,7 +119,7 @@ public class Game {
     }
   }
   
-  public void platShift(){
+  public static void platShift(){
     while(player.getSpeed()>0){
       for(Platform a:currentLevel.getPlatforms()){
         a.setY(a.getY()+player.getSpeed());
@@ -109,7 +127,7 @@ public class Game {
       player.setSpeed(player.getSpeed()-2);
     }
   }
-  public Game (Player player, World world) {
+  public  Game (Player player, World world) {
     this.player = player;
     this.world = world;
     currentLevel= world.getLevels().get(0);
@@ -118,5 +136,8 @@ public class Game {
     this.player = player;
     this.world = world;
     this.currentLevel=world.getLevels().get(l);
+  }
+  public Game(){
+  
   }
 }
