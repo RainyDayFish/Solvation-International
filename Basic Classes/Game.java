@@ -107,7 +107,7 @@ public final class Game  {
        //    System.out.println(landedWhere());
       if(landedWhere()>-1){
         
-        if(player.getY()<250){
+        if(player.getY()<300){
           platShift();
         }else {
             System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere());
