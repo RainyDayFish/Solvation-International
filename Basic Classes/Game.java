@@ -5,14 +5,13 @@ import javax.swing.BorderFactory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 import java.util.*;
-public final class Game {
+public final class Game  {
   
   static Player player;
   static World world;
@@ -47,7 +46,7 @@ public final class Game {
     }
     for(Platform a : currentLevel.getPlatforms ()) {
       
-      if(player.getX () >= a.getX ()-100 && player.getX () <= a.getX () + 250 && player.getY () > a.getY ()&&player.getY () < a.getY ()+20) {
+      if(player.getX () >= a.getX ()-100 && player.getX () <= a.getX () + 100 && player.getY () > a.getY ()-100&&player.getY () < a.getY ()-20) {
         return counter;
       }
       counter++;
@@ -77,6 +76,7 @@ public final class Game {
       //  }
       g.drawGame();
       g.inGame();
+       
     }catch(IOException e){
       
     }
@@ -95,20 +95,31 @@ public final class Game {
     while(/*player.getLives()>0*/ true){
       time--;
       player.setY(player.getY()+player.getSpeed());
+      if(player.getX()>750){
+      player.setX(player.getSpeedX());
+      }else if(player.getX()<-50){
+      player.setX(player.getSpeedX()+750);
+      }
+      
+      else{
+      player.setX(player.getX()+player.getSpeedX());
+      }
+       //    System.out.println(landedWhere());
       if(landedWhere()>-1){
         
         if(player.getY()<250){
           platShift();
         }else {
+            System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere());
           player.setSpeed(player.getSpeed()*-1);
-          System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere());
+       // player.setSpeed(-50);
         }
       }else{
-        if(player.getY()>=currentLevel.getLowest()+50){
+        if(player.getY()>=currentLevel.getLowest()+100){
           player.setLives(player.getLives()-1);
           player.setY(250);
          // player.setX(currentLevel.getLowest());
-          player.setSpeed(50);
+          player.setSpeed(25);
         }
       }
 //      if(correctLanded()){
@@ -119,13 +130,19 @@ public final class Game {
 //          time=(int)currentLevel.getTimeLimit();
 //        }
 //      }
-      
+      if(landedWhere()==-1||player.getSpeed()!=0){
       player.setSpeed(player.getSpeed()+5);
+      }
+      if(player.getSpeedX()-15>=0){
+      player.setSpeedX(player.getSpeedX()-15);
+      }else{
+       player.setSpeedX(0);
+      }
       currentLevel.cleanPlatform();
       f.getContentPane().validate();
       f.getContentPane().repaint();
       try {
-        Thread.sleep(100);
+        Thread.sleep(50);
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -133,14 +150,23 @@ public final class Game {
     }
     
   }
-  
+   
   public static void platShift(){
-    while(player.getSpeed()>0){
+    player.setSpeed(player.getSpeed()*-1);
+    while(player.getSpeed()<0){
       for(Platform a:currentLevel.getPlatforms()){
-        a.setY(a.getY()+player.getSpeed());
+        a.setY(a.getY()-player.getSpeed());
       }
-      player.setSpeed(player.getSpeed()-2);
+      player.setSpeed(player.getSpeed()+5);
+       //     f.getContentPane().validate();
+      f.getContentPane().repaint();
+      try {
+        Thread.sleep(50);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
     }
+    currentLevel.cleanPlatform();
   }
   public  Game (Player player, World world) {
     this.player = player;
