@@ -104,6 +104,22 @@ public class GameLevel
     return false;
     
   }
+  private void makePossible(){
+    
+  Collections.sort(platforms);
+    for(int f=0;f<platforms.size()-1;f++){
+      
+      if(platforms.get(f+1).getY()-platforms.get(f).getY()>100){
+      platforms.add(f+1,platforms.get(f));
+      platforms.get(f+1).setY(platforms.get(f+1).getY()+50);
+    //    new Platform(platforms.get(f).getX(),platforms.get(f).getY()+50,  )
+      }
+    }
+  
+  
+  
+  }
+  
   public void generatePlatforms (int difficultyLevel)
   {
     Platform p;
@@ -131,6 +147,7 @@ public class GameLevel
           f--;
           
         }
+        makePossible();
       }catch(IOException e){
         
       }
@@ -206,6 +223,7 @@ public class GameLevel
         a.setY(getHighest()-a.getY()+750);
       }
     }
+    makePossible();
   }
   
   /* 
