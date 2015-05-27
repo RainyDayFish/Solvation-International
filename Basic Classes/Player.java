@@ -25,7 +25,8 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Entities
 {
-  int speed = 10;
+  private int speed = 30;
+  private int speedX=0;
   static final int DEFAULT_LIVES = 3;
   
   private Score score;
@@ -63,6 +64,13 @@ public class Player extends Entities
   public void setSpeed(int speed){
   this.speed=speed;
   }
+    public void setSpeedX(int speed){
+  this.speedX=speed;
+  }
+    
+    public int getSpeedX(){
+    return speedX;
+    }
   public int getSpeed(){
   return speed;
   }
