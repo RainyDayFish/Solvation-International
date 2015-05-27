@@ -96,7 +96,7 @@ public class GameLevel
     return true;
     }
     for(Platform a:platforms){
-      if((a.getX()<p.getX()+250&&a.getX()+250>p.getX())&&(a.getY()>p.getY()-25&&a.getY()-25<p.getY())){
+      if((a.getX()<p.getX()+250&&a.getX()+250>p.getX())&&(a.getY()>p.getY()-60&&a.getY()-60<p.getY())){
         return true;
       }
      
