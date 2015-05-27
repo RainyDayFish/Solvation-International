@@ -7,6 +7,7 @@ public class CoverFlowMenuItem {
   private String name;
   private boolean isSelectable;
   private int x, y;
+  private int keyAccess;
   
   public BufferedImage getImage (){
     return image;
@@ -26,6 +27,10 @@ public class CoverFlowMenuItem {
   
   public boolean getIsSelectable () {
     return isSelectable;
+  }
+  
+  public int getKeyAccess (){
+    return keyAccess;
   }
   
   public void setImage (BufferedImage newImage){
@@ -48,9 +53,10 @@ public class CoverFlowMenuItem {
     isSelectable = newIsSelectable;
   }
   
-  public CoverFlowMenuItem (String fileName, String name, boolean isSelectable) { 
+  public CoverFlowMenuItem (String fileName, String name, boolean isSelectable, int keyAccess) { 
     this.name = name;
     this.isSelectable = isSelectable;
+    this.keyAccess = keyAccess;
     
     try{
       image = ImageIO.read (new File (fileName));

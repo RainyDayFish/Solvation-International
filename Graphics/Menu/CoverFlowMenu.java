@@ -45,7 +45,8 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
     
     g.setFont (new Font ("Arial", Font.PLAIN, 15));
     g.drawString ("Scroll = arrow keys or clicking on the left/right side of the screen.", 20, 100);
-    g.drawString ("Select = Enter key or clicking the selected icon.", 20, 130);
+    g.drawString ("Select = Pressing Enter/clicking the chosen icon", 20, 130);
+    g.drawString ("Can also use a keyboard shortcut (always the first letter of the option's name)", 20, 160);
   }
   
   private void drawItem (Graphics g, int index, int x, int y, int scale){
@@ -54,9 +55,12 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
     if (index != current){
       img = getReflection (g, getScaledImage (img, scale), 0.3f);
     }
+    else{
+      img = getScaledImage (img, 200);
+    }
     
     if (!items.get (index).getIsSelectable ()){
-      img = getReflection (g, toGrayScale (img), 0.2f);
+      img = blackOut (img);
     }
     
     Font font = new Font ("Arial", Font.PLAIN, 20);;
@@ -96,15 +100,14 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
       g.drawString (items.get (index).getName (), x + img.getWidth () / 2 - items.get (index).getName ().length () * 5, y + img.getHeight () + 60);
   }
   
-  private BufferedImage toGrayScale (BufferedImage img){
-    Color color;
-    int sum;
+  private BufferedImage blackOut (BufferedImage img){
+    int color;
     
     for (int x = 0; x < img.getWidth (); x++){
       for (int y = 0; y < img.getHeight (); y++){
-        color = new Color (img.getRGB (x, y));
-        sum = (int) (color.getRed () * 0.299 + color.getBlue () * 0.587 + color.getGreen () * 0.114);
-        img.setRGB (x, y, new Color (sum, sum, sum).getRGB ());
+        color = img.getRGB (x, y);
+        if (((color >> 24) & 0xff) > 0)//checks transparency of image, 0 = completely transparent
+          img.setRGB (x, y, new Color (0, 0, 0).getRGB ());
       }
     }
     return img;
@@ -159,8 +162,13 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
   }
   
   private void choseChoice (){
-    choseOption = true;
-    choice = current;
+    if (items.get (current).getIsSelectable ()){
+      choseOption = true;
+      choice = current;
+    }
+    else{
+      JOptionPane.showMessageDialog (this, "This option has been disabled.", "Invalid Choice", JOptionPane.ERROR_MESSAGE);
+    }
   }
   
   private BufferedImage getScaledImage (Image srcImg, int size){
@@ -187,12 +195,18 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
       shiftRight ();
       repaint ();
     }
+    else if (e.getKeyCode () == KeyEvent.VK_ENTER){
+      choseChoice ();
+    }
     else {
-      if (e.getKeyCode () == KeyEvent.VK_ENTER){
-        if (items.get (current).getIsSelectable ())
+      for (int i = 0; i < items.size (); i++){
+        if (items.get (i).getKeyAccess () == e.getKeyCode ()){
+          current = i;
+          setDisplayedIndexes ();
+          move = true;
+          repaint ();
           choseChoice ();
-        else
-          JOptionPane.showMessageDialog (this, "This option has been disabled.", "Invalid Choice", JOptionPane.ERROR_MESSAGE);
+        }
       }
     }
   }
@@ -208,14 +222,8 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
       shiftLeft ();
       repaint ();
     }
-    else if (e.getX () >= 263 && e.getX () <= 491 && e.getY () >= 268 && e.getY () <= 518){
-      if (items.get (current).getIsSelectable ()){
-        System.out.println (current);
-      }
-      //choseChoice ();
-      else
-        JOptionPane.showMessageDialog (this, "This option has been disabled.", "Invalid Choice", JOptionPane.ERROR_MESSAGE);
-    }
+    else if (e.getX () >= 263 && e.getX () <= 491 && e.getY () >= 268 && e.getY () <= 518)
+      choseChoice ();
     else {
       if (e.getX () <= 750 && e.getX () >= 550){
         shiftRight ();
