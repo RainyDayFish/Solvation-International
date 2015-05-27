@@ -12,7 +12,7 @@
 
 import java.awt.image.BufferedImage;
 
-public class Platform extends Entities
+public class Platform extends Entities implements Comparable
 {
   private String text;
   
@@ -51,6 +51,20 @@ public class Platform extends Entities
     super (x, y);
     this.text = text;
   }
+     /* This method compareTo is used to compare different platforms by location
+   *
+   * @return An int that is positive negative or 0 depending on whether the platform is lower or higher than the other
+   * @param p A platform representing the platform to be compared with.
+   */
+  @Override
+    public int compareTo(Object p) {
+        int compare=((Platform)p).getY();
+        /* For Ascending order*/
+        return this.getY()-compare;
+
+        /* For Descending order do like this */
+        //return compareage-this.studentage;
+    }
   
   /*
    * This contructor creates a new PLatform object with it's coordinates on the screen, an image to represent the Platform, as well as the text, through passed parameters.
