@@ -51,19 +51,17 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
   
   private void drawItem (Graphics g, int index, int x, int y, int scale){
     BufferedImage img = items.get (index).getImage ();
-    
-    if (index != current){
-      img = getReflection (g, getScaledImage (img, scale), 0.3f);
-    }
-    else{
-      img = getScaledImage (img, 200);
-    }
-    
-    if (!items.get (index).getIsSelectable ()){
-      img = blackOut (img);
-    }
-    
+    BufferedImage reflection;
     Font font = new Font ("Arial", Font.PLAIN, 20);;
+    AffineTransform a = new AffineTransform ();
+    
+    if (index != current)
+      img = getReflection (g, getScaledImage (img, scale), 0.3f);
+    else
+      img = getScaledImage (img, 200);
+    
+    if (!items.get (index).getIsSelectable ())
+      img = blackOut (img);
     
     /*  if (!items.get (index).getIsSelectable ())          ****************************************TEXT CROSS OUT ****************************
      {
@@ -75,27 +73,17 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
     g.setColor (Color.WHITE);
     g.setFont (font);
     
-    AffineTransform a = new AffineTransform ();
-    
     a.translate (x, y);
-    
-    //if (index != chosenIndex)
     a.shear (0, -0.125);
-    //a.shear (0, index == start ? 0.2 : -0.2);
     
     ((Graphics2D)g).drawImage (img, a, null);
     
-    BufferedImage mirror = getReflection (g, img, 0.4f);
+    reflection = getReflection (g, img, 0.4f);
     
-    a = new AffineTransform ();
-    a.translate (x, y + mirror.getHeight () + 5);
+    a.translate (0, reflection.getHeight () + 5);
     
-    //if (index != chosenIndex)
-    a.shear (0, -0.125);
-    //a.shear (0, index == start ? 0.2 : -0.2);
+    ((Graphics2D) g).drawImage (reflection, a, null);
     
-    ((Graphics2D) g).drawImage (mirror, a, null);
-    //g.drawImage (getReflection (g, img), x, y + img.getHeight () + 10, null);
     if (index == current)
       g.drawString (items.get (index).getName (), x + img.getWidth () / 2 - items.get (index).getName ().length () * 5, y + img.getHeight () + 60);
   }
