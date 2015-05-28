@@ -79,7 +79,8 @@ public class HighScore {
             if (score == null)
               successful = false;
             break;
-          }          
+          }
+          
           highScore.add (score);
           i++;
         }
