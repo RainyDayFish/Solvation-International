@@ -6,89 +6,191 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.*;
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
 import javax.swing.*;
 import java.util.*;
-public class Draw  extends JPanel implements KeyListener{
-  public Draw() {
-    setBorder(BorderFactory.createLineBorder(Color.black));
-    addKeyListener(this);
+public final class Game  {
+  
+  static Player player;
+  static World world;
+  static GameLevel currentLevel;
+  static int time;
+  static int questionNum = 0;
+  static JFrame f = new JFrame("Game");
+  public static Player getPlayer (){
+    return player;
   }
   
-  public Dimension getPreferredSize() {
-    return new Dimension(750,800);
+  public static GameLevel getLevel(){
+    return currentLevel;
   }
   
-  public void paintComponent(Graphics g) {
-    super.paintComponent(g);       
-    Game.getWorld();
-    g.drawImage(Game.getLevel().getBackground (),0,0,this);
-    g.drawImage(Game.getPlayer().getImage(), Game.getPlayer().getX(), Game.getPlayer().getY(), this);
-    List<Platform> list=Game.getLevel().getThreadSafePlatforms();
+  public static void setPlayer (Player newPlayer){
+    player = newPlayer;
+  }
+  
+  public static void setLevel(GameLevel newLevel){
+    currentLevel = newLevel;
+  }
+  
+  public static void pauseGame(){
     
-    for(Platform a:list){
-      g.drawImage(a.getImage(), a.getX(), a.getY(), this);
+  }
+  public static int getQuestionNum(){
+    return questionNum;
+  }
+  public static int landedWhere (){
+    int counter = 0;
+    if(player.getSpeed()<0){
+      return -1;
+    }
+    for(Platform a : currentLevel.getPlatforms ()) {
       
-      // System.out.println(getX());
+      if(player.getX () >= a.getX ()-100 && player.getX () <= a.getX () + 100 && player.getY () > a.getY ()-100&&player.getY () < a.getY ()-20) {
+        return counter;
+      }
+      counter++;
     }
-    
-    if(Game.landedWhere()>-1){
-      g.drawString(""+Game.landedWhere(),Game.getLevel().getPlatforms().get(Game.landedWhere()).getX(),Game.getLevel().getPlatforms().get(Game.landedWhere()).getY());
-    }
-    //  g.drawString("This works!",10,20);
-    for(Platform a:Game.getLevel().getPlatforms() ){
-      g.drawString(a.getText(),a.getX(),a.getY());
-    }
-    g.setColor (Color.WHITE);
-    g.fillRect(0,750 , 750, 800);
-    g.setColor (Color.BLACK);
-    Question q=Game.getLevel().getQuestions().get(Game.getQuestionNum());
-    g.drawString(q.getQuestion()+" "+q.getAnswer(),10,770);
+    return -1;
   }
   
-  public void addNotify() {
-    super.addNotify();
-    requestFocus();
-  }
-  private void setD(KeyEvent e){
-    if((int)(e.getKeyCode())== KeyEvent.VK_KP_LEFT || (e.getKeyCode())== KeyEvent.VK_LEFT){
-      Game.getPlayer().setSpeedX(-40);
-      if( Game.getPlayer().getSpeed()==0&&Game.landedWhere()>-1){
-        Game.getPlayer().setSpeed(-50);
-      }
+  public static boolean correctLanded(){
+    if (landedWhere()!=-1&&currentLevel.getPlatforms(). get(landedWhere()).getText().equals(currentLevel.getQuestions().get(questionNum).getAnswer())){
+      return true;
     }
-    else{
-      if((int)(e.getKeyCode())== KeyEvent.VK_KP_RIGHT || (e.getKeyCode())== KeyEvent.VK_RIGHT){
-        Game.getPlayer().setSpeedX(40);
-        if( Game.getPlayer().getSpeed()==0&&Game.landedWhere()>-1){
-          Game.getPlayer().setSpeed(-50);
+    return false;
+  }
+  public static World getWorld(){
+    return world;
+  }
+  public static void main(String args[]){
+    Game g=new Game();
+    try{
+      BufferedImage character=ImageIO.read(new File("dot.png"));
+      BufferedImage back1=ImageIO.read(new File("Clouds.png"));
+      List<GameLevel> levels=new ArrayList<GameLevel>();
+      levels.add(new GameLevel(1, 500, back1));
+      g=new Game(new Player(250, 0, true, character , 10), new World(1,  levels));
+      //   for(Platform a:Game.getLevel().getPlatforms()){
+      // System.out.println(a.getX());
+      //  }
+      g.drawGame();
+      g.inGame();
+      
+    }catch(IOException e){
+      
+    }
+    
+  }
+  public static void drawGame(){
+    
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    f.add(new Draw());
+    f.pack();
+    f.setVisible(true);
+  }
+  public static int getTimeLeft(){
+    return time;
+  }
+  public static void inGame(){
+    time=(int)currentLevel.getTimeLimit();
+    while(player.getLives()>0){
+      time--;
+      player.setY(player.getY()+player.getSpeed());
+      if(player.getX()>750){
+        player.setX(player.getSpeedX());
+      }else if(player.getX()<-50){
+        player.setX(player.getSpeedX()+750);
+      }
+      else{
+        player.setX(player.getX()+player.getSpeedX());
+      }
+      //    System.out.println(landedWhere());
+      if(landedWhere()>-1){
+        
+        if(player.getY()<300){
+          platShift();
+        }else {
+          if(correctLanded()){
+            System.out.println("correct");
+            time=(int)currentLevel.getTimeLimit();
+            questionNum++;
+            if(questionNum>=currentLevel.getQuestions().size()){
+              return;
+            }
+            
+          }
+          
+          
+          System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere()+" "+currentLevel.getPlatforms().get(landedWhere()).getText()+" Lives: "+player.getLives());
+          System.out.println(time);
+          player.setSpeed(player.getSpeed()*-1);
+          // player.setSpeed(-50);
         }
+      }else{
+        if(player.getY()>=currentLevel.getLowest()+100){
+          player.setLives(player.getLives()-1);
+          player.setY(250);
+          // player.setX(currentLevel.getLowest());
+          player.setSpeed(25);
+        }
+        
       }
-    }
-  }
-  public void keyTyped(KeyEvent e) {
-    System.out.println( "KEY Released: "+e.getKeyChar());
-    setD(e);
-    if((int)(e.getKeyCode())== KeyEvent.VK_KP_DOWN || (e.getKeyCode())== KeyEvent.VK_DOWN){
-      if(Game.landedWhere()>-1){
-        Game.getPlayer().setSpeed(Game.getPlayer().getSpeed()/4);
+      if (time<1){
+        player.setLives(player.getLives()-1);
+        time=(int)currentLevel.getTimeLimit();
       }
+      if(landedWhere()==-1||player.getSpeed()!=0){
+        player.setSpeed(player.getSpeed()+5);
+      }
+      if(player.getSpeedX()-15>=0){
+        player.setSpeedX(player.getSpeedX()-15);
+      }else{
+        player.setSpeedX(0);
+      }
+      currentLevel.cleanPlatform();
+      f.getContentPane().validate();
+      f.getContentPane().repaint();
+      try {
+        Thread.sleep(50);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+      
     }
-  }
-  
-  
-  /** Handle the key-pressed event from the text field. */
-  public void keyPressed(KeyEvent e) {
     
-    setD(e);
-    if((int)(e.getKeyCode())== KeyEvent.VK_KP_DOWN || (e.getKeyCode())== KeyEvent.VK_DOWN){
-      if(Game.landedWhere()>-1){
-        Game.getPlayer().setSpeed(Game.getPlayer().getSpeed()/4);
-      }
-    }
   }
   
-  /** Handle the key-released event from the text field. */
-  public void keyReleased(KeyEvent e) {
-    // System.out.println( "KEY Released: "+e.getKeyChar());
+  public static void platShift(){
+    player.setSpeed(player.getSpeed()*-1);
+    while(player.getSpeed()<0){
+      for(Platform a:currentLevel.getPlatforms()){
+        a.setY(a.getY()-player.getSpeed());
+      }
+      player.setSpeed(player.getSpeed()+5);
+      //     f.getContentPane().validate();
+      f.getContentPane().repaint();
+      try {
+        Thread.sleep(50);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    }
+    //   currentLevel.cleanPlatform();
+  }
+  public  Game (Player player, World world) {
+    this.player = player;
+    this.world = world;
+    currentLevel= world.getLevels().get(0);
+  }
+  public Game (Player player, World world,int l) {
+    this.player = player;
+    this.world = world;
+    this.currentLevel=world.getLevels().get(l);
+  }
+  public Game(){
+    
   }
 }
