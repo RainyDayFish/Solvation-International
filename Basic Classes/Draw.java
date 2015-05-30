@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.util.*;
 import javax.imageio.*;
 import java.io.*;
+import java.awt.Font;
+
 import java.awt.image.BufferedImage;
 public class Draw  extends JPanel implements KeyListener{
   public Draw() {
@@ -24,6 +26,7 @@ public class Draw  extends JPanel implements KeyListener{
   public void paintComponent(Graphics g) {
     super.paintComponent(g);       
     Game.getWorld();
+    g.setFont (new Font ("Arial", Font.BOLD, 12));
     g.drawImage(Game.getLevel().getBackground (),0,0,this);
     g.drawImage(Game.getPlayer().getImage(), Game.getPlayer().getX(), Game.getPlayer().getY(), this);
     List<Platform> list=Game.getLevel().getThreadSafePlatforms();
@@ -38,12 +41,14 @@ public class Draw  extends JPanel implements KeyListener{
       g.drawString(""+Game.landedWhere(),Game.getLevel().getPlatforms().get(Game.landedWhere()).getX(),Game.getLevel().getPlatforms().get(Game.landedWhere()).getY());
     }
     //  g.drawString("This works!",10,20);
+    
     for(Platform a:Game.getLevel().getPlatforms() ){
       g.drawString(a.getText(),a.getX(),a.getY());
     }
     g.setColor (Color.WHITE);
     g.fillRect(0,750 , 750, 800);
     g.setColor (Color.BLACK);
+     g.setFont (new Font ("Arial", Font.PLAIN, 12));
     Question q=Game.getLevel().getQuestions().get(Game.getQuestionNum());
     g.drawString(q.getQuestion()+" "+q.getAnswer(),10,770);
     showLives(g);
