@@ -51,20 +51,18 @@ public class Platform extends Entities implements Comparable
     super (x, y);
     this.text = text;
   }
-     /* This method compareTo is used to compare different platforms by location
+  
+  /* This method compareTo is used to compare different platforms by location
    *
-   * @return An int that is positive negative or 0 depending on whether the platform is lower or higher than the other
+   * @return An int that is positive, negative or 0 depending on whether the platform is lower or higher than the other
    * @param p A platform representing the platform to be compared with.
    */
   @Override
-    public int compareTo(Object p) {
-        int compare=((Platform)p).getY();
-        /* For Ascending order*/
-        return this.getY()-compare;
-
-        /* For Descending order do like this */
-        //return compareage-this.studentage;
-    }
+  public int compareTo(Object p) {
+    int compare = ((Platform)p).getY();
+    /* For Ascending order*/
+    return this.getY() - compare;
+  }
   
   /*
    * This contructor creates a new PLatform object with it's coordinates on the screen, an image to represent the Platform, as well as the text, through passed parameters.

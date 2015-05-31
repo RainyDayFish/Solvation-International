@@ -13,7 +13,7 @@
  * <b>score</b> An int value representing their score, which depends on the player's progress through the game.
  */
 
-public class Score
+public class Score implements Comparable
 {
   private String name;
   private int difficulty, score;
@@ -85,6 +85,10 @@ public class Score
   public void setDifficulty (int newDifficulty)
   {
     difficulty = newDifficulty;
+  }
+  
+  public int compareTo (Object score) {
+    return this.getScore () - ((Score) score).getScore ();
   }
   
   /*
