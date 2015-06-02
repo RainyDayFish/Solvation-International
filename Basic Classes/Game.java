@@ -114,7 +114,6 @@ public final class Game  {
         if(player.getY()<300){
           platShift();
         }else {
-          
           if(correctLanded()){
             System.out.println("correct");
             time=(int)currentLevel.getTimeLimit();
@@ -122,10 +121,7 @@ public final class Game  {
             if(questionNum>=currentLevel.getQuestions().size()){
               return;
             }
-            
           }
-          
-          
           System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere()+" "+currentLevel.getPlatforms().get(landedWhere()).getText()+" Lives: "+player.getLives());
           System.out.println(time);
           //  player.setSpeed(player.getSpeed()*-1);
@@ -150,8 +146,16 @@ public final class Game  {
       if (time<1){
         
         player.setLives(player.getLives()-1);
-        time=(int)currentLevel.getTimeLimit();
         
+        f.getContentPane().validate();
+      f.getContentPane().repaint();
+        try {
+        Thread.sleep(2000);
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+      time=(int)currentLevel.getTimeLimit();
+      questionNum++;
       }
       if(landedWhere()==-1||player.getSpeed()!=0){
         player.setSpeed(player.getSpeed()+5);

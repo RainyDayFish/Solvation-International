@@ -52,7 +52,7 @@ public class Draw  extends JPanel implements KeyListener{
     g.setFont (new Font ("Arial", Font.PLAIN, 12));
     Question q=Game.getLevel().getQuestions().get(Game.getQuestionNum());
     
-    if(Game.getTimeLeft()<0){
+    if(Game.getTimeLeft()<1){
       g.drawString(q.getQuestion()+" Answer: "+q.getAnswer(),10,770);
     }else{
       g.drawString(q.getQuestion()+" "+q.getAnswer(),10,770);
