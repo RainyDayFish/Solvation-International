@@ -70,8 +70,18 @@ public final class Game  {
     try{
       BufferedImage character=ImageIO.read(new File("dot.png"));
       BufferedImage back1=ImageIO.read(new File("Clouds.png"));
+      BufferedImage back2=ImageIO.read(new File("Hills.png"));
+      BufferedImage back3=ImageIO.read(new File("Night One.png"));
+      
+//      List backgrounds=new arrayList <BufferedImage> ();
+//      backgrounds.add(back1);
+//      backgrounds.add(back2);
+//      backgrounds.add(back3);
+      
       List<GameLevel> levels=new ArrayList<GameLevel>();
       levels.add(new GameLevel(1, 500, back1));
+      levels.add(new GameLevel(2, 500, back2));
+      levels.add(new GameLevel(3, 500, back3));
       g=new Game(new Player(250, 0, true, character , 10), new World(1,  levels));
       //   for(Platform a:Game.getLevel().getPlatforms()){
       // System.out.println(a.getX());
@@ -80,7 +90,7 @@ public final class Game  {
       g.inGame();
       
     }catch(IOException e){
-      
+      System.out.println("I messed up");
     }
     
   }
@@ -119,11 +129,38 @@ public final class Game  {
             time=(int)currentLevel.getTimeLimit();
             questionNum++;
             if(questionNum>=currentLevel.getQuestions().size()){
-              return;
+              System.out.println("New World!");
+              questionNum=0;
+              if(currentLevel.getLevelNum()<world.getLevels().size()){
+                setLevel(world.getLevel(currentLevel.getLevelNum()));
+                f.getContentPane().validate();
+                f.getContentPane().repaint();
+                try {
+                  Thread.sleep(1000);
+                } catch (Exception e) {
+                  System.out.println(e);
+                }
+                player.setLives(player.getLives()-1);
+                player.setY(250);
+                player.setX(currentLevel.getPlatforms().get(currentLevel.getLowestPlatform()).getX());
+                player.setSpeed(25);
+                try {
+                  Thread.sleep(1000);
+                } catch (Exception e) {
+                  System.out.println(e);
+                }
+              }else{
+                return;
+              }
+              
             }
+            
           }
-          System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere()+" "+currentLevel.getPlatforms().get(landedWhere()).getText()+" Lives: "+player.getLives());
-          System.out.println(time);
+          //       System.out.println(landedWhere());
+          if(landedWhere()>-1){
+            System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere()+" "+currentLevel.getPlatforms().get(landedWhere()).getText()+" Lives: "+player.getLives());
+            System.out.println(time);
+          }
           //  player.setSpeed(player.getSpeed()*-1);
           player.setSpeed(-50);
           // player.setSpeed(-50);
@@ -144,18 +181,16 @@ public final class Game  {
         
       }
       if (time<1){
-        
         player.setLives(player.getLives()-1);
-        
         f.getContentPane().validate();
-      f.getContentPane().repaint();
+        f.getContentPane().repaint();
         try {
-        Thread.sleep(2000);
-      } catch (Exception e) {
-        System.out.println(e);
-      }
-      time=(int)currentLevel.getTimeLimit();
-      questionNum++;
+          Thread.sleep(2000);
+        } catch (Exception e) {
+          System.out.println(e);
+        }
+        time=(int)currentLevel.getTimeLimit();
+        questionNum++;
       }
       if(landedWhere()==-1||player.getSpeed()!=0){
         player.setSpeed(player.getSpeed()+5);
@@ -198,12 +233,12 @@ public final class Game  {
   public  Game (Player player, World world) {
     this.player = player;
     this.world = world;
-    currentLevel= world.getLevels().get(0);
+    currentLevel= world.getLevel(0);
   }
   public Game (Player player, World world,int l) {
     this.player = player;
     this.world = world;
-    this.currentLevel=world.getLevels().get(l);
+    this.currentLevel=world.getLevel(l);
   }
   public Game(){
     
