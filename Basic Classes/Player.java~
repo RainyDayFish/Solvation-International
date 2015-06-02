@@ -27,7 +27,7 @@ public class Player extends Entities
 {
   private int speed = 30;
   private int speedX=0;
-  static final int DEFAULT_LIVES = 3;
+  static final int DEFAULT_LIVES = 30;
   
   private Score score;
   private boolean isTangible;

@@ -98,6 +98,7 @@ public final class Game  {
     time=(int)currentLevel.getTimeLimit();
     while(player.getLives()>0){
       time--;
+      
       player.setY(player.getY()+player.getSpeed());
       if(player.getX()>750){
         player.setX(player.getSpeedX());
@@ -108,11 +109,12 @@ public final class Game  {
         player.setX(player.getX()+player.getSpeedX());
       }
       //    System.out.println(landedWhere());
-      if(landedWhere()>-1){
+      if(landedWhere()>-1&&player.getTan()){
         
         if(player.getY()<300){
           platShift();
         }else {
+          
           if(correctLanded()){
             System.out.println("correct");
             time=(int)currentLevel.getTimeLimit();
@@ -126,21 +128,30 @@ public final class Game  {
           
           System.out.println("Landed!!!!: "+player.getSpeed()+" "+landedWhere()+" "+currentLevel.getPlatforms().get(landedWhere()).getText()+" Lives: "+player.getLives());
           System.out.println(time);
-          player.setSpeed(player.getSpeed()*-1);
+          //  player.setSpeed(player.getSpeed()*-1);
+          player.setSpeed(-50);
           // player.setSpeed(-50);
         }
       }else{
-        if(player.getY()>=currentLevel.getLowest()+100){
+        if(player.getY()>=currentLevel.getLowest()+200){
           player.setLives(player.getLives()-1);
           player.setY(250);
+          player.setX(currentLevel.getPlatforms().get(currentLevel.getLowestPlatform()).getX());
           // player.setX(currentLevel.getLowest());
           player.setSpeed(25);
+          try {
+            Thread.sleep(1000);
+          } catch (Exception e) {
+            System.out.println(e);
+          }
         }
         
       }
       if (time<1){
+        
         player.setLives(player.getLives()-1);
         time=(int)currentLevel.getTimeLimit();
+        
       }
       if(landedWhere()==-1||player.getSpeed()!=0){
         player.setSpeed(player.getSpeed()+5);
@@ -158,16 +169,15 @@ public final class Game  {
       } catch (Exception e) {
         System.out.println(e);
       }
-      
     }
-    
   }
   
   public static void platShift(){
-    player.setSpeed(player.getSpeed()*-1);
+    player.setSpeed(-30);
     while(player.getSpeed()<0){
-      for(Platform a:currentLevel.getPlatforms()){
-        a.setY(a.getY()-player.getSpeed());
+      currentLevel.cleanPlatform();
+      for(int f=0;f<currentLevel.getPlatforms().size();f++){
+        currentLevel.getPlatforms().get(f).setY(currentLevel.getPlatforms().get(f).getY()-player.getSpeed());
       }
       player.setSpeed(player.getSpeed()+5);
       //     f.getContentPane().validate();
@@ -178,6 +188,7 @@ public final class Game  {
         System.out.println(e);
       }
     }
+    player.setSpeed(0);
     //   currentLevel.cleanPlatform();
   }
   public  Game (Player player, World world) {

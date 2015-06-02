@@ -30,7 +30,7 @@ public class Player extends Entities
   static final int DEFAULT_LIVES = 30;
   
   private Score score;
-  private boolean isTangible;
+  private boolean isTangible=true;
   private double increment;
   private int lives = DEFAULT_LIVES;
   
@@ -40,7 +40,7 @@ public class Player extends Entities
    * @return A boolean value representing whether or not the Player's character is tangible.
    */
   
-  public boolean getTangibility ()
+  public boolean getTan ()
   {
     return isTangible;
   }
@@ -51,7 +51,7 @@ public class Player extends Entities
    * @param newTangibility A boolean value which represents the new value of isTangible.
    */
   
-  public void setTangibility (boolean newTangibility)
+  public void setTan (boolean newTangibility)
   {
     isTangible = newTangibility;
   }
@@ -62,17 +62,17 @@ public class Player extends Entities
    * @return The double value representing the speed increment.
    */
   public void setSpeed(int speed){
-  this.speed=speed;
+    this.speed=speed;
   }
-    public void setSpeedX(int speed){
-  this.speedX=speed;
+  public void setSpeedX(int speed){
+    this.speedX=speed;
   }
-    
-    public int getSpeedX(){
+  
+  public int getSpeedX(){
     return speedX;
-    }
+  }
   public int getSpeed(){
-  return speed;
+    return speed;
   }
   public double getIncrement ()
   {

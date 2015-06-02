@@ -44,7 +44,7 @@ public class GameLevel
     return levelNum;
   }
   
-  /* Description of getTimeLimit ()
+    /* Description of getTimeLimit ()
    * This method returns a double value which represents the amount of time the user has to complete the level.
    *
    * @return A double value which represents the amount of time the user has to complete the level.
@@ -76,6 +76,9 @@ public class GameLevel
     return platforms;
   }
   
+  public List<Platform> getThreadSafePlatforms(){
+    return new ArrayList<Platform>(platforms);
+  }
   /* Description of getQuestions ()
    * This method returns a List of Questions which represents the questions asked to the user during the level.
    *
@@ -104,31 +107,17 @@ public class GameLevel
     return false;
     
   }
-  private void makePossible(){
-    
-  Collections.sort(platforms);
-    for(int f=0;f<platforms.size()-1;f++){
-      
-      if(platforms.get(f+1).getY()-platforms.get(f).getY()>100){
-      platforms.add(f+1,platforms.get(f));
-      platforms.get(f+1).setY(platforms.get(f+1).getY()+50);
-    //    new Platform(platforms.get(f).getX(),platforms.get(f).getY()+50,  )
-      }
-    }
   
-  
-  
-  }
   
   public void generatePlatforms (int difficultyLevel)
   {
     Platform p;
     BufferedImage pic;
     BufferedImage platPic;
-    for (int i = 0; i < 100 - (difficultyLevel * 25); i++){
+    for (int i = 0; i < 200 - (difficultyLevel * 25); i++){
       try{
         platPic=ImageIO.read(new File("Platform.png"));
-        p=new Platform((int)(Math.random()*750),(int)(Math.random()*750),"",platPic);
+        p=new Platform((int)(Math.random()*750),(int)(Math.random()*100+i*100),"",platPic);
         if(platforms.size()==0||!exists(p)){
           // System.out.println(p.getX());
           platforms.add(p);
@@ -138,17 +127,17 @@ public class GameLevel
     }
     for(int f=0;f<questions.size();f++){
       try{
-        pic=ImageIO.read(new File(questions.get(f).getAnswer()));
-        
+        //pic=ImageIO.read(new File(questions.get(f).getAnswer()));
+        //pic= null;
+         pic=ImageIO.read(new File("PlatformAnswer.png"));
         p=new Platform((int)(Math.random()*750),(int)(Math.random()*750),questions.get(f).getAnswer(),pic);
         if(!exists(p)){
           platforms.add(p);
         }else{
           f--;
-          
         }
-        makePossible();
-      }catch(IOException e){
+
+      }catch(Exception e){
         
       }
     }
@@ -212,12 +201,33 @@ public class GameLevel
     }
     return high;
   }
+  private void makePossible(){
+    
   
+  Collections.sort(platforms);
+    for(int f=0;f<platforms.size()-1;f++){
+      
+      if(platforms.get(f+1).getY()-platforms.get(f).getY()>300){
+      platforms.add(f+1,platforms.get(f));
+      platforms.get(f+1).setY(platforms.get(f+1).getY()+150);
+      }
+    }
+  
+    
+  
+  }
   /* Description of cleanPlatform ()
    * This method checks if a Platform's y value is off the screen, and if so, re-adds it to the top.
    */
   
   public void cleanPlatform (){
+    if(platforms.size()>150){
+      for(int f=0;f<platforms.size();f++){
+        if(platforms.get(f).getY()>0&&platforms.get(f).getY()<750){
+      platforms.remove(f);
+        }
+      }
+    }
     for(Platform a:platforms){
       if(a.getY()>750){
         a.setY(getHighest()-a.getY()+750);
@@ -241,5 +251,6 @@ public class GameLevel
     this.timeLimit = timeLimit;
     this.background = background;
     generatePlatforms (levelNum);
+    inputQuestions(levelNum);
   }
 }
