@@ -21,7 +21,7 @@ public class Draw extends JPanel implements KeyListener{
   }
   
   public Dimension getPreferredSize() {
-    return new Dimension(Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE + 50); ////////////////////////////////////////WHY IS THIS + 50 ////////////////////////////////////////////////////////////////////////////
+    return new Dimension(Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE); ////////////////////////////////////////WHY IS THIS + 50 ////////////////////////////////////////////////////////////////////////////
   }
   
   public void paintComponent(Graphics g){

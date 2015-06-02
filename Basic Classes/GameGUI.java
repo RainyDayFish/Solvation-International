@@ -34,6 +34,22 @@ public class GameGUI extends JPanel {
     
   }
   
+  public void runGame (){
+    SearchingForSolvationFrame.game.setTimeLeft (SearchingForSolvationFrame.game.getWorld ().getLevel (SearchingForSolvationFrame.game.getCurrentLevel ()).getTimeLimit ());
+    
+    while (SearchingForSolvationFrame.game.getPlayer ().getLives () > 0 /*&& !SearchingForSolvationFrame.game.updateGameState ()*/){
+      SearchingForSolvationFrame.game.updateGameState ();
+      SearchingForSolvationFrame.frame.validate ();
+      SearchingForSolvationFrame.frame.repaint ();
+     
+      //this.getContentPane ().validate ();
+      //this.getContentPane ().repaint ();
+      
+      System.out.println ("test " + SearchingForSolvationFrame.game.getTimeLeft () + " " + SearchingForSolvationFrame.game.getPlayer ().getLives ());
+      Utilities.delay (50);
+    }
+  }
+  
   public void newGame(){
     
   }

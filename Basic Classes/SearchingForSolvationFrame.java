@@ -2,15 +2,18 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
 
-public class SearchingForSolvationFrame extends JFrame {
+public class SearchingForSolvationFrame/* extends JFrame*/ {
   static Game game;
+  static JFrame frame;
   
   public void quitProgram (){
-    dispose ();
+    frame.dispose ();
+    System.exit (0);
   }
   
   public SearchingForSolvationFrame (){
-    super ("Solvation - Searching For Solvation");
+    frame = new JFrame ("test");
+    //super ("Solvation - Searching For Solvation");
     
     try {
       UIManager.setLookAndFeel (UIManager.getSystemLookAndFeelClassName ());
@@ -18,12 +21,12 @@ public class SearchingForSolvationFrame extends JFrame {
     catch (Exception e){
     }
     
-    setSize (Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE);
-    setResizable (false);
-    setLocationRelativeTo (null);
-    setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
+    frame.setSize (Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE);
+    frame.setResizable (false);
+    frame.setLocationRelativeTo (null);
+    frame.setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
     
-    this.addWindowListener (new WindowAdapter () {
+    frame.addWindowListener (new WindowAdapter () {
       public void windowClosing (WindowEvent ev){
         quitProgram ();
       }});
@@ -33,10 +36,12 @@ public class SearchingForSolvationFrame extends JFrame {
     
     game = new Game (new Player (250, 0, true, Utilities.TEMP_SPRITE), new World (1,  levels));
     
-    add (new Draw ());
-    pack ();
-    setVisible (true);
-    game.inGame ();
+    frame.add (new Draw ());
+    
+    frame.pack ();
+    frame.setVisible (true);
+    
+    new GameGUI ().runGame ();
   }
 }
 

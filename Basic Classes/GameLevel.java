@@ -71,14 +71,14 @@ public class GameLevel
    * @return A List of Platforms which represents the Platform objects on the screen.
    */
   
-  public /*synchronized*/ List <Platform> getPlatforms ()////////////////////////////////////////////////////////////////////////////////////////////////////////////////////SYNCHRONIZED
+  public /*synchronized*/ List <Platform> getPlatforms ()
   {
     return platforms;
   }
   
   /*public List <Platform> getThreadSafePlatforms(){
-    return new ArrayList <Platform> (platforms);
-  }*/
+   return new ArrayList <Platform> (platforms);
+   }*/
   
   /* Description of getQuestions ()
    * This method returns a List of Questions which represents the questions asked to the user during the level.
@@ -123,21 +123,15 @@ public class GameLevel
     }
     
     for (int f = 0; f < questions.size (); f++){
-      try{
-        //pic=ImageIO.read(new File(questions.get(f).getAnswer()));
-        //pic= null;
-        p = new Platform ((int)(Math.random() * Utilities.SCREEN_SIZE), (int)(Math.random() * Utilities.SCREEN_SIZE),questions.get (f).getAnswer (), pic);
-        
-        if(!exists (p)){
-          platforms.add (p);
-        }
-        else{
-          f--;
-        }
-        
+      //pic=ImageIO.read(new File(questions.get(f).getAnswer()));
+      //pic= null;
+      p = new Platform ((int)(Math.random() * Utilities.SCREEN_SIZE), (int)(Math.random() * Utilities.SCREEN_SIZE),questions.get (f).getAnswer (), pic);
+      
+      if(!exists (p)){
+        platforms.add (p);
       }
-      catch(Exception e){
-        
+      else{
+        f--;
       }
     }
   }
@@ -145,7 +139,7 @@ public class GameLevel
   /* Description of inputQuestions ()
    * This method assigns the values of questions from an external .txt file.
    */
-  public void inputQuestions(int diffLevel){
+  public void inputQuestions (int diffLevel){
     try{
       BufferedReader open = new BufferedReader(new FileReader ("Questions" + diffLevel + ".txt"));
       String temp;
@@ -206,7 +200,7 @@ public class GameLevel
   
   private /*synchronized*/ void makePossible(){
     Collections.sort (platforms);
-    for(int f = 0; f < platforms.size() -1 ; f++){
+    for(int f = 0; f < platforms.size () - 1 ; f++){
       
       if(platforms.get (f + 1).getY () - platforms.get (f).getY () > 300){
         platforms.add (f + 1, platforms.get (f));

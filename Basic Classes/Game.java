@@ -80,105 +80,92 @@ public class Game  {
     return -1;
   }
   
-  public /*synchronized*/ boolean correctLanded(){
+  public synchronized boolean correctLanded (){//REMOVED LANDEDWHERE CHECK SINCE YOU ARE ALREADY CHECKING WITHIN IN GAME BEFORE CALLING THIS METHOD
     if (landedWhere() != -1 && world.getLevel (currentLevel).getPlatforms ().get (landedWhere()).getText ().equals (world.getLevel (currentLevel).getQuestions ().get (questionNum).getAnswer ())){
+      //timeLeft = world.getLevel (currentLevel).getTimeLimit ();
+      //questionNum++;
       return true;
     }
     return false;
   }
   
-  /*  public static void main(String args[]){
-   Game g;
-   try{
-   List <GameLevel> levels = new ArrayList <GameLevel> ();
-   levels.add (new GameLevel (1, 500, Utilities.CLOUDS_BACKGROUND, true));
-   g = new Game (new Player (250, 0, true, Utilities.TEMP_SPRITE), new World (1,  levels));
-   //   for(Platform a:Game.getLevel().getPlatforms()){
-   // System.out.println(a.getX());
-   //  }
-   g.drawGame ();
-   g.inGame ();
-   }
-   catch (IOException e){
-   System.out.println ("no files");
-   }
-   }
-   
-   public void drawGame(){
-   f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-   f.add (new Draw());
-   f.pack ();
-   f.setVisible (true);
-   }*/
-  
-  public /*synchronized*/ void inGame(){
-    timeLeft = world.getLevel (currentLevel).getTimeLimit();
-    while (player.getLives() > 0){
-      timeLeft--;
-      player.setY (player.getY() + player.getSpeed ());
-      
-      if(player.getX () > Utilities.SCREEN_SIZE){
-        player.setX (player.getSpeedX ());
-      }
-      else if (player.getX() < -50){
-        player.setX (player.getSpeedX() + Utilities.SCREEN_SIZE);
-      }
-      else{
-        player.setX(player.getX() + player.getSpeedX ());
-      }
-      //    System.out.println(landedWhere());
-      if(landedWhere() > -1){
-        
-        if(player.getY () < 300){
-          platShift ();
-        }
-        else {
-          if (correctLanded ()){
-            //System.out.println("correct");
-            timeLeft = world.getLevel (currentLevel).getTimeLimit();
-            questionNum++;
-            if(questionNum >= world.getLevel (currentLevel).getQuestions().size()){
-              return;
-            }
-          }
-          
-          // System.out.println("Landed!!!!: " + player.getSpeed () + " "+ landedWhere () + " " + getWorld ().getLevel (currentLevel).getPlatforms ().get(landedWhere()).getText () + " Lives: " + player.getLives());
-          // System.out.println(timeLeft);
-          player.setSpeed(player.getSpeed() * -1);
-          // player.setSpeed(-50);
-        }
-      }
-      else{
-        if(player.getY() >= world.getLevel (currentLevel).getLowest() + 100){
-          player.setLives (player.getLives() - 1);
-          player.setY (250);
-          // player.setX(currentLevel.getLowest());
-          player.setSpeed (25);
-        }
-      }
-      if (timeLeft < 1){
-        player.setLives (player.getLives() - 1);
-        timeLeft = world.getLevel (currentLevel).getTimeLimit();
-      }
-      if (landedWhere() == -1 || player.getSpeed () != 0){
-        player.setSpeed (player.getSpeed() + 5);
-      }
-      if (player.getSpeedX () - 15 >= 0){
-        player.setSpeedX (player.getSpeedX () - 15);
-      }
-      else{
-        player.setSpeedX (0);
-      }
-      
-      world.getLevel (currentLevel).cleanPlatform ();
-      //f.getContentPane ().validate ();                    ***********************************************************************************
-      //f.getContentPane ().repaint ();
-      
-      Utilities.delay (50);
-    }
+  public void updatePlayerXPosition (){
+    if (player.getX () > 750)
+      player.setX (player.getSpeedX ());
+    else if (player.getX () < -50)
+      player.setX (player.getSpeedX () + 750);
+    else
+      player.setX (player.getX () + player.getSpeedX ());
   }
   
-  public /*synchronized*/ void platShift (){
+  public boolean hasWonLevel (){
+    return questionNum >= world.getLevel (currentLevel).getQuestions ().size ();
+  }
+  
+  public boolean updateLanding (){
+    if (landedWhere () > -1){
+      if (player.getY () < 300){
+        platformShift ();
+      }
+      else {
+        if (correctLanded ()){
+          System.out.println ("correct");
+          
+          timeLeft = world.getLevel (currentLevel).getTimeLimit ();
+          questionNum++;
+          
+          if(hasWonLevel ()){
+            return true;
+          }
+        }
+        
+        System.out.println ("Landed!!!!: " + player.getSpeed () + " " + landedWhere () + " " + world.getLevel (currentLevel).getPlatforms ().get (landedWhere ()).getText () + " Lives: " + player.getLives ());
+        System.out.println (timeLeft);
+        
+        player.setSpeed (player.getSpeed () * -1);
+        // player.setSpeed(-50);
+      }
+    }
+    else{
+      if(player.getY () >= world.getLevel (currentLevel).getLowest () + 100){
+        player.setLives (player.getLives() - 1);
+        player.setY (250);
+        // player.setX(currentLevel.getLowest());
+        player.setSpeed (25);
+      }
+    }
+    return false;
+  }
+  
+  public void updatePlayerSpeed (){
+    if(landedWhere () == -1 || player.getSpeed () != 0)
+      player.setSpeed (player.getSpeed () + 5);
+    
+    if(player.getSpeedX () - 15 >= 0)
+      player.setSpeedX (player.getSpeedX () - 15);
+    else
+      player.setSpeedX (0);
+  }
+  
+  public void updateGameState (){
+    timeLeft--;
+    player.setY (player.getY () + player.getSpeed ());
+    
+    updatePlayerXPosition ();
+    
+    if (updateLanding ())
+      return;
+    
+    if (timeLeft < 1){
+      player.setLives (player.getLives () - 1);
+      timeLeft = world.getLevel (currentLevel).getTimeLimit ();
+    }
+    
+    updatePlayerSpeed ();
+    world.getLevel (currentLevel).cleanPlatform ();
+  }
+  
+  public /*synchronized*/ void platformShift (){
     player.setSpeed (player.getSpeed () * -1);
     while(player.getSpeed () < 0){
       for(Platform a : world.getLevel (currentLevel).getPlatforms()){
@@ -186,11 +173,11 @@ public class Game  {
       }
       
       player.setSpeed (player.getSpeed () + 5);
-      //     f.getContentPane().validate();
-      //f.getContentPane ().repaint ();                    ***********************************************************************************
+      
+      SearchingForSolvationFrame.frame.validate ();
+      SearchingForSolvationFrame.frame.repaint ();
       Utilities.delay (50);
     }
-    //   currentLevel.cleanPlatform();
   }
   
   public Game (Player player, World world) {
