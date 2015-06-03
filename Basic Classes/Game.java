@@ -11,7 +11,8 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.*;
 import java.util.*;
-public final class Game  {
+
+public class Game  {
   
   static Player player;
   static World world;
