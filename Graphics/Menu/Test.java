@@ -9,11 +9,9 @@ public class Test {
   
   public static void main (String[]args){
     JFrame f = new JFrame ();
-    Test.items.add (new CoverFlowMenuItem ("1.png", "World 1 (Easy)", true, KeyEvent.VK_P));
-    Test.items.add (new CoverFlowMenuItem ("2.png", "World 2 (Medium)", true, KeyEvent.VK_H));
-    Test.items.add (new CoverFlowMenuItem ("3.png", "World 3 (Hard)", true, KeyEvent.VK_S));
-    //Test.items.add (new CoverFlowMenuItem ("help.png", "Help", true, KeyEvent.VK_H));
-    //Test.items.add (new CoverFlowMenuItem ("quit.png", "Quit", true, KeyEvent.VK_Q));
+    Test.items.add (new CoverFlowMenuItem (Utilities.PLAY_BUTTON, "Play", true, KeyEvent.VK_P));
+    Test.items.add (new CoverFlowMenuItem (Utilities.HELP_BUTTON, "Help", true, KeyEvent.VK_H));
+    Test.items.add (new CoverFlowMenuItem (Utilities.QUIT_BUTTON, "Quit", true, KeyEvent.VK_S));
     
     CoverFlowMenu menu = new CoverFlowMenu (Test.items, "World Selection");
     f.add (menu);

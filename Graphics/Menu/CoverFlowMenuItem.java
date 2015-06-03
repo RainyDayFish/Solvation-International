@@ -53,15 +53,10 @@ public class CoverFlowMenuItem {
     isSelectable = newIsSelectable;
   }
   
-  public CoverFlowMenuItem (String fileName, String name, boolean isSelectable, int keyAccess) { 
+  public CoverFlowMenuItem (BufferedImage image, String name, boolean isSelectable, int keyAccess) { 
+    this.image = image;
     this.name = name;
     this.isSelectable = isSelectable;
     this.keyAccess = keyAccess;
-    
-    try{
-      image = ImageIO.read (new File (fileName));
-    }
-    catch (IOException e){
-    }
   }
 }

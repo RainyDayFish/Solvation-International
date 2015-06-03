@@ -8,6 +8,7 @@ public class HighScore implements Printable {
   
   static ArrayList <Score> highScores = new ArrayList <Score> ();
   private PrinterJob job = PrinterJob.getPrinterJob ();
+  private BufferedReader in;
   
   public boolean isHighScore (Score score){
     if (highScores.size () < 10 || highScores.get (highScores.size () - 1).compareTo (score) < 0)
@@ -29,6 +30,8 @@ public class HighScore implements Printable {
     try {
       PrintWriter out = new PrintWriter (new FileWriter ("high_scores.txt"));
       
+      out.println ("Solvata High Scores");
+      
       for (Score i : highScores){
         out.println (i.getName ());
         out.println (i.getDifficulty ());
@@ -42,16 +45,25 @@ public class HighScore implements Printable {
   
   public boolean readHighScores (){
     try {
-      BufferedReader in = new BufferedReader (new FileReader ("high_scores.txt"));
+      in = new BufferedReader (new FileReader ("high_scores.txt"));
       Score x;
       
       highScores.clear ();
       
-      while ((x = readScore (in)) != null && x.getName () != null){
+      if (!in.readLine ().equals ("Solvata High Scores"))
+        return false;
+      
+      x = readScore ();
+      
+      while (isValidScore (x)){
+        if (!highScores.isEmpty () && highScores.get (highScores.size () - 1).compareTo (x) < 0) //IF HIGH SCORES ARE NOT STORED IN ORDER...
+          return false;
+        
         highScores.add (x);
+        x = readScore ();
       }
       
-      if (x == null || highScores.get (highScores.size () - 1).compareTo (x) < 0)
+      if (isValidName (x.getName ()) && !isValidScore (x)) //WHETHER OR NOT THE SCORE OBJECT IS INVALID OR IF THE FILE SIMPLY ENDED
         return false;
     }
     catch (IOException e){
@@ -60,7 +72,7 @@ public class HighScore implements Printable {
     return true;
   }
   
-  private Score readScore (BufferedReader in){
+  private Score readScore (/*BufferedReader in*/){
     Score score = new Score ("", -1, -1);
     String line = "";
     
@@ -68,22 +80,22 @@ public class HighScore implements Printable {
       line = in.readLine ();
       score.setName (line);
       
-      if (line == null)
+      if (!isValidName (line))
         return score;
       
       line = in.readLine ();
       
-      if (isValidDifficulty (Integer.parseInt (line)))
-        score.setDifficulty (Integer.parseInt (line));
-      else
-        return null;
+      // if (isValidDifficulty (Integer.parseInt (line)))
+      score.setDifficulty (Integer.parseInt (line));
+      //  else
+      //   return null;
       
       line = in.readLine ();
       
-      if (isValidScore (Integer.parseInt (line)))
-        score.setScore (Integer.parseInt (line));
-      else
-        return null;
+      //   if (isValidScore (Integer.parseInt (line)))
+      score.setScore (Integer.parseInt (line));
+      //   else
+      //    return null;
     }
     catch (IOException | NumberFormatException e){
       return null;
@@ -103,6 +115,10 @@ public class HighScore implements Printable {
     return score >= 0;
   }
   
+  private boolean isValidScore (Score score){
+    return score != null && isValidName (score.getName ()) && isValidDifficulty (score.getDifficulty ()) && isValidScore (score.getScore ());
+  }
+  
   public int print (Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException
   {
     Graphics g2d = (Graphics2D)g;
@@ -114,6 +130,7 @@ public class HighScore implements Printable {
     
     g.setFont (new Font ("Arial", Font.BOLD, 18));
     g.setColor (Color.BLACK);
+    
     g.drawString ("High Scores", (int) (pageFormat.getImageableHeight () / 2), 100);
     
     g.setFont (new Font ("Arial", Font.BOLD, 13));
@@ -127,6 +144,7 @@ public class HighScore implements Printable {
     
     for (int i = 0; i < highScores.size (); i++){
       Score x = highScores.get (i);
+      
       g.drawString ("#" + (i + 1), 20 , i * 30 + 175);
       g.drawString (x.getName (), 50 , i * 30 + 175);
       g.drawString ("" + x.getDifficulty (), 125 , i * 30 + 175);
@@ -134,17 +152,4 @@ public class HighScore implements Printable {
     }
     return PAGE_EXISTS;
   }
-  
-  public boolean printer (){
-    if (job.printDialog ()){
-      try {
-        job.print ();
-        return true;
-      }
-      catch (PrinterException e){
-        return false;
-      }
-    }
-    return false;
-  } 
 }

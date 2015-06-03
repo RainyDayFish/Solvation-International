@@ -22,7 +22,7 @@ public class World
   private int difficulty;
   // private BufferedImage background;
   private List < GameLevel > levels;
- 
+  
   /* Description of getDifficultyLevel ()
    * A method which returns the difficulty level of a particular world.
    * 

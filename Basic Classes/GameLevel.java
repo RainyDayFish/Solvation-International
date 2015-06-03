@@ -1,4 +1,3 @@
-
 import java.awt.image.*;
 import java.io.*;
 import javax.imageio.*;
@@ -16,7 +15,7 @@ import java.awt.image.BufferedImage;
  * <p>
  * <b>levelNum</b> An int which specifies which level the player is on.
  * <p>
- * <b>timeLimit</b> A double which specifies the amount of time that the user has to complete the level.
+ * <b>timeLimit</b> An int which specifies the amount of time that the user has to complete the level.
  * <p>
  * <b>background</b> A BufferedImage which is used to visually represent the level on the screen.
  * <p>
@@ -28,10 +27,11 @@ import java.awt.image.BufferedImage;
 public class GameLevel
 {
   private int levelNum;
-  private double timeLimit;
+  private int timeLimit;
+  private boolean playable;
   private BufferedImage background;
-  private List < Platform > platforms=new ArrayList<Platform>();
-  private List <Question> questions=new ArrayList<Question>();
+  private List < Platform > platforms = new ArrayList <Platform> ();
+  private List <Question> questions = new ArrayList <Question> ();
   
   /* Description of getLevelNum ()
    * This method returns an int which represents the level number.
@@ -45,14 +45,18 @@ public class GameLevel
   }
   
   /* Description of getTimeLimit ()
-   * This method returns a double value which represents the amount of time the user has to complete the level.
+   * This method returns an int value which represents the amount of time the user has to complete the level.
    *
-   * @return A double value which represents the amount of time the user has to complete the level.
+   * @return An int value which represents the amount of time the user has to complete the level.
    */
   
-  public double getTimeLimit ()
+  public int getTimeLimit ()
   {
     return timeLimit;
+  }
+  
+  public boolean getPlayable (){
+    return playable;
   }
   
   /* Description of getBackground ()
@@ -71,14 +75,15 @@ public class GameLevel
    * @return A List of Platforms which represents the Platform objects on the screen.
    */
   
-  public List < Platform > getPlatforms ()
+  public /*synchronized*/ List <Platform> getPlatforms ()
   {
     return platforms;
   }
   
-  public List<Platform> getThreadSafePlatforms(){
-    return new ArrayList<Platform>(platforms);
-  }
+  /*public List <Platform> getThreadSafePlatforms(){
+   return new ArrayList <Platform> (platforms);
+   }*/
+  
   /* Description of getQuestions ()
    * This method returns a List of Questions which represents the questions asked to the user during the level.
    *
@@ -89,76 +94,72 @@ public class GameLevel
     return questions;
   }
   
+  public void setPlayable (boolean newPlayable){
+    playable = newPlayable;
+  }
+  
   /* Description of exists()
    * This method checks if the parameter platform is in the same location as another platform
    *
    * @param p is the platform in question.
    */
-  private boolean exists(Platform p){
-    if(p.getX()>650||p.getY()>725){
+  private boolean exists (Platform p){
+    if (p.getX () > 650 || p.getY () > 725){
       return true;
     }
-    for(int f=0;f<platforms.size();f++){
-      if((platforms.get(f).getX()<p.getX()+250&&platforms.get(f).getX()+250>p.getX())&&(platforms.get(f).getY()>p.getY()-100&&platforms.get(f).getY()-100<p.getY())){
+    
+    for (Platform a : platforms){
+      if ((a.getX () < p.getX () + 250 && a.getX () + 250 > p.getX ()) && (a.getY () > p.getY () - /*60*/100 && a.getY () - /*60*/100 < p.getY ())){
         return true;
       }
-      
     }
     return false;
-    
   }
   
-  
-  public void generatePlatforms (int difficultyLevel)
+  public /*synchronized*/ void generatePlatforms (int difficultyLevel)
   {
     Platform p;
-    BufferedImage pic;
-    BufferedImage platPic;
-    for(int f=0;f<questions.size();f++){
-      try{
-        //pic=ImageIO.read(new File(questions.get(f).getAnswer()));
-        //pic= null;
-        pic=ImageIO.read(new File("PlatformAnswer.png"));
-        p=new Platform((int)(Math.random()*750),(int)(Math.random()*750),questions.get(f).getAnswer(),pic);
-        if(!exists(p)){
-          platforms.add(p);
-        }else{
-          f--;
-        }
-        
-      }catch(Exception e){
-        
-      }
-    }
+    
     for (int i = 0; i < 200 - (difficultyLevel * 25); i++){
-      try{
-        platPic=ImageIO.read(new File("Platform.png"));
-        p=new Platform((int)(Math.random()*750),(int)(Math.random()*100+i*100),"",platPic);
-        if(platforms.size()==0||!exists(p)){
-          // System.out.println(p.getX());
-          platforms.add(p);
-        }
-      }catch(IOException e){
+      p = new Platform ((int)(Math.random() * Utilities.SCREEN_SIZE), (int)(Math.random() * 100 + i * 100), "", Utilities.DEFAULT_PLATFORM);
+      
+      if (platforms.size() == 0 || !exists (p)){
+        // System.out.println(p.getX());
+        platforms.add (p);
       }
     }
     
+    for (int f = 0; f < questions.size (); f++){
+      //pic=ImageIO.read(new File(questions.get(f).getAnswer()));
+      //pic= null;
+      p = new Platform ((int)(Math.random() * Utilities.SCREEN_SIZE), (int)(Math.random() * Utilities.SCREEN_SIZE),questions.get (f).getAnswer (), Utilities.ANSWER_PLATFORM);
+      
+      if(!exists (p)){
+        platforms.add (p);
+      }
+      else{
+        f--;
+      }
+    }
   }
+  
   /* Description of inputQuestions ()
    * This method assigns the values of questions from an external .txt file.
    */
-  public void inputQuestions(int diffLevel){
+  public void inputQuestions (int diffLevel){
     try{
-      BufferedReader open=new BufferedReader(new FileReader("Questions"+diffLevel+".txt"));
+      BufferedReader open = new BufferedReader(new FileReader ("Questions" + diffLevel + ".txt"));
       String temp;
       String answer;
-      while((temp=open.readLine())!=null){
-        answer=open.readLine();
-        questions.add(new Question(temp,answer));
+      
+      while((temp = open.readLine()) != null){
+        answer = open.readLine();
+        questions.add (new Question (temp,answer));
       }
-    }catch(IOException e){
+    }
+    catch (IOException e){
       e.printStackTrace(System.out);
     }
-    
   }
   
   /* Description of removePlatform ()
@@ -167,7 +168,7 @@ public class GameLevel
    * @param num An int which represents the index to remove within the platforms List.
    */
   
-  public void removePlatform (int num){
+  public /*synchronized*/ void removePlatform (int num){
     platforms.remove(num);
   }
   
@@ -178,18 +179,20 @@ public class GameLevel
    */
   
   public int getLowest (){
-    return platforms.get(getLowestPlatform()).getY();
+    return platforms.get (getLowestPlatform ()).getY ();
   }
   
   public int getLowestPlatform (){
-    int low=0;
-    for(int f=0;f<platforms.size();f++){
-      if(platforms.get(f).getY()>low){
-        low=f;
+    int low = 0;
+    
+    for(int f = 0; f < platforms.size (); f++){
+      if(platforms.get (f).getY () > low){
+        low = f;
       }
     }
     return low;
   }
+  
   /* Description of getLowest ()
    * This method returns the y value of the highest Platform object within a List.
    *
@@ -197,49 +200,44 @@ public class GameLevel
    */
   
   public int getHighest(){
-    int high=platforms.get(0).getY();
-    for(int f=0;f<platforms.size();f++){
-      if(platforms.get(f).getY()<high){
-        high=platforms.get(f).getY();
+    int high = platforms.get (0).getY ();
+    for(Platform a : platforms){
+      if(a.getY () < high){
+        high = a.getY();
       }
     }
     return high;
   }
-  private void makePossible(){
-    
-    
-    Collections.sort(platforms);
-    for(int f=0;f<platforms.size()-1;f++){
+  
+  private /*synchronized*/ void makePossible(){
+    Collections.sort (platforms);
+    for(int f = 0; f < platforms.size () - 1 ; f++){
       
-      //  if(Math.pow(2.0,(double)(platforms.get(f+1).getY()-platforms.get(f).getY()))+Math.pow(2.0,(double)(platforms.get(f+1).getX()-platforms.get(f).getX()))>40000){
-      //if(platforms.get(f+1).getY()-platforms.get(f).getY()+platforms.get(f+1).getX()-platforms.get(f).getX()>200){
-      if(platforms.get(f+1).getY()-platforms.get(f).getY()>200){
-        platforms.add(f+1,platforms.get(f));
-        platforms.get(f+1).setY(platforms.get(f+1).getY()+100);
+      if(platforms.get (f + 1).getY () - platforms.get (f).getY () > /*300*/200){
+        platforms.add (f + 1, platforms.get (f));
+        platforms.get (f + 1).setY (platforms.get (f + 1).getY () + /*150*/100);
       }
     }
-    
-    
-    
   }
+  
   /* Description of cleanPlatform ()
    * This method checks if a Platform's y value is off the screen, and if so, re-adds it to the top.
    */
   
-  public void cleanPlatform (){
-    if(platforms.size()>150){
-      for(int f=0;f<platforms.size();f++){
-        if(platforms.get(f).getY()>0&&platforms.get(f).getY()<750){
-          platforms.remove(f);
+  public /*synchronized*/ void cleanPlatform (){
+    if(platforms.size () > 150){
+      for(int f = 0; f < platforms.size (); f++){
+        if(platforms.get (f).getY () > 0 && platforms.get(f).getY () < Utilities.SCREEN_SIZE){
+          platforms.remove (f);
         }
       }
     }
-    for(int f=0;f<platforms.size();f++){
-      if(platforms.get(f).getY()>750){
-        platforms.get(f).setY(getHighest()-platforms.get(f).getY()+700);
+    for(Platform a : platforms){
+      if (a.getY () > Utilities.SCREEN_SIZE){
+        a.setY (getHighest () - a.getY () + /*Utilities.SCREEN_SIZE*/ 700); ///////////////////////////////////////////////////////////////////////////WHY IS THIS 700?
       }
     }
-    makePossible();
+    makePossible ();
   }
   
   /* 
@@ -247,15 +245,17 @@ public class GameLevel
    * and are assigned to the instance variables.
    *
    * @param levelNum An int which represents the level number of the GameLevel.
-   * @param timeLimit A double which represents the time limit the user has to complete the level.
+   * @param timeLimit An int which represents the time limit the user has to complete the level.
    * @param background A BufferedImage which visually represents the background onto the screen.
    */
   
-  public GameLevel (int levelNum, double timeLimit, BufferedImage background)
+  public GameLevel (int levelNum, int timeLimit, BufferedImage background, boolean playable)
   {
     this.levelNum = levelNum;
     this.timeLimit = timeLimit;
     this.background = background;
+    this.playable = playable;
+    
     generatePlatforms (levelNum);
     inputQuestions(levelNum);
   }
