@@ -230,7 +230,11 @@ public class Game  {
     world.getLevel (currentLevel).cleanPlatform ();
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     //Utilities.delay (50);
+=======
+    // Utilities.delay (10);
+>>>>>>> origin/master
 =======
     // Utilities.delay (10);
 >>>>>>> origin/master
