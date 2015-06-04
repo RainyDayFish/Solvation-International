@@ -170,7 +170,7 @@ public class Game  {
     updatePlayerSpeed ();
     world.getLevel (currentLevel).cleanPlatform ();
     
-    Utilities.delay (50);
+    //Utilities.delay (50);
   }
   
   public /*synchronized*/ void platformShift (){
