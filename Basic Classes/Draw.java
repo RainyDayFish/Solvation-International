@@ -14,7 +14,8 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 public class Draw extends JPanel implements KeyListener{
-  
+  BufferedImage left;
+  BufferedImage right;
   public Draw() {
     setBorder (BorderFactory.createLineBorder (Color.BLACK));
     addKeyListener (this);
@@ -84,11 +85,18 @@ public class Draw extends JPanel implements KeyListener{
   }
   
   private void setD(KeyEvent e){
+    try{
+      left=ImageIO.read(new File(SearchingForSolvationFrame.game.getPlayer ().getName()+"L.png"));
+      right=ImageIO.read(new File(SearchingForSolvationFrame.game.getPlayer ().getName()+"R.png"));
+    }catch(IOException a){
+      System.out.println("can't find images"+SearchingForSolvationFrame.game.getPlayer ().getName());
+    }
     if((int)(e.getKeyCode ()) == KeyEvent.VK_KP_LEFT || (e.getKeyCode ()) == KeyEvent.VK_LEFT || e.getKeyChar () == 'a'){
       SearchingForSolvationFrame.game.getPlayer ().setSpeedX (-40);
       if( SearchingForSolvationFrame.game.getPlayer ().getSpeed () == 0 && SearchingForSolvationFrame.game.landedWhere () > -1){
         SearchingForSolvationFrame.game.getPlayer ().setSpeed (-50);
       }
+      SearchingForSolvationFrame.game.getPlayer ().setImage(left);
     }
     else{
       if((int)(e.getKeyCode ()) == KeyEvent.VK_KP_RIGHT || (e.getKeyCode ()) == KeyEvent.VK_RIGHT || e.getKeyChar () == 'd'){
@@ -97,6 +105,7 @@ public class Draw extends JPanel implements KeyListener{
           SearchingForSolvationFrame.game.getPlayer ().setSpeed (-50);
         }
       }
+      SearchingForSolvationFrame.game.getPlayer ().setImage(right);
     }
   }
   
@@ -107,7 +116,7 @@ public class Draw extends JPanel implements KeyListener{
       //if(SearchingForSolvationFrame.game.landedWhere () > -1){
       //SearchingForSolvationFrame.game.getPlayer ().setSpeed (SearchingForSolvationFrame.game.getPlayer ().getSpeed () / 4);
       //}
-      SearchingForSolvationFrame.game.getPlayer ().setTangibility (false);
+      SearchingForSolvationFrame.game.getPlayer ().setTan (false);
     }
   }
   
@@ -119,7 +128,7 @@ public class Draw extends JPanel implements KeyListener{
       // if(SearchingForSolvationFrame.game.landedWhere()>-1){
       //    SearchingForSolvationFrame.game.getPlayer().setSpeed(SearchingForSolvationFrame.game.getPlayer().getSpeed()/4);
       //  }
-      SearchingForSolvationFrame.game.getPlayer ().setTangibility (false);
+      SearchingForSolvationFrame.game.getPlayer ().setTan (false);
     }
   }
   
@@ -129,7 +138,7 @@ public class Draw extends JPanel implements KeyListener{
 //      if(Game.landedWhere()>-1){
 //        Game.getPlayer().setSpeed(Game.getPlayer().getSpeed()/4);
 //      }
-      SearchingForSolvationFrame.game.getPlayer ().setTangibility (true);
+      SearchingForSolvationFrame.game.getPlayer ().setTan (true);
     }
   }
 }

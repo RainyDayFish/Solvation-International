@@ -30,9 +30,12 @@ public class Utilities {
   
   
   //*********************** ADD SPRITE IMAGE PATHS *******************************************//
-  // static final BufferedImage GHOST_SPRITE;
+  // static final BufferedImage BALL_SPRITE;
   // static final BufferedImage SNAIL_SPRITE;
-  static final BufferedImage TEMP_SPRITE = getImage ("dot.png");
+//  static final BufferedImage BALLL = getImage ("dotL.png");
+//   static final BufferedImage BALLR = getImage ("dotR.png");
+ //   static final BufferedImage SNAILL= getImage("SnailL.png");
+ // static final BufferedImage SNAILR= getImage("SnailR.png");
   //*****************************************************************************************//
   
   public static BufferedImage getImage (String fileName){
