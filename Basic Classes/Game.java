@@ -63,6 +63,65 @@ public class Game  {
   /*public void pauseGame (){
    * 
    }*/
+  public static Game run(int worldNum, Game g, String charName){
+    if(worldNum==1){
+      try{
+        BufferedImage character=ImageIO.read(new File(charName+"L.png"));
+        BufferedImage back1=ImageIO.read(new File("Clouds.png"));
+        BufferedImage back2=ImageIO.read(new File("Hills.png"));
+        BufferedImage back3=ImageIO.read(new File("Night One.png"));
+        
+//      List backgrounds=new arrayList <BufferedImage> ();
+//      backgrounds.add(back1);
+//      backgrounds.add(back2);
+//      backgrounds.add(back3);
+        
+        List<GameLevel> levels=new ArrayList<GameLevel>();
+        levels.add(new GameLevel(1, 500, back1,true));
+        levels.add(new GameLevel(2, 500, back2,true));
+        levels.add(new GameLevel(3, 500, back3,true));
+        g=new Game(new Player(250, 0, true, character , charName), new World(1,  levels));
+        System.out.println(g.getPlayer().getName());
+        //   for(Platform a:Game.getLevel().getPlatforms()){
+        // System.out.println(a.getX());
+        //  }
+        //g.drawGame();
+        //g.inGame();
+        
+      }catch(IOException e){
+        System.out.println("I messed up");
+      }
+    }else if(worldNum==2){
+      try{
+        BufferedImage character=ImageIO.read(new File("dot.png"));
+        BufferedImage back1=ImageIO.read(new File("Weird.png"));
+        BufferedImage back2=ImageIO.read(new File("Old Urban.png"));
+        BufferedImage back3=ImageIO.read(new File("Mountains.png"));
+        
+//      List backgrounds=new arrayList <BufferedImage> ();
+//      backgrounds.add(back1);
+//      backgrounds.add(back2);
+//      backgrounds.add(back3);
+        
+        List<GameLevel> levels=new ArrayList<GameLevel>();
+        levels.add(new GameLevel(1, 500, back1,true));
+        levels.add(new GameLevel(2, 500, back2,true));
+        levels.add(new GameLevel(3, 500, back3,true));
+        g=new Game(new Player(250, 0, true, character ,"dot"), new World(2,  levels));
+        //   for(Platform a:Game.getLevel().getPlatforms()){
+        // System.out.println(a.getX());
+        //  }
+        //g.drawGame();
+        // g.inGame();
+        
+      }catch(IOException e){
+        System.out.println("I messed up2");
+      }
+    }else{
+      System.out.println("Wait for update 2.7");
+    }
+    return g;
+  }
   
   public /*synchronized*/ int landedWhere (){
     int counter = 0;
@@ -103,7 +162,7 @@ public class Game  {
   }
   
   public boolean updateLanding (){
-    if (landedWhere () > -1 && player.getTangibility ()){
+    if (landedWhere () > -1 && player.getTan ()){
       if (player.getY () < 300){
         platformShift ();
       }
@@ -164,13 +223,13 @@ public class Game  {
       Utilities.delay (2000);
       
       timeLeft = world.getLevel (currentLevel).getTimeLimit ();
-      //questionNum++;                      /////////////////////////////////////////*****************************WHY INCREMENT THE QUESTION VALUE?**********************
+      questionNum++;                      /////////////////////////////////////////*****************************WHY INCREMENT THE QUESTION VALUE?**********************
     }
     
     updatePlayerSpeed ();
     world.getLevel (currentLevel).cleanPlatform ();
     
-    Utilities.delay (50);
+    // Utilities.delay (10);
   }
   
   public /*synchronized*/ void platformShift (){
@@ -205,5 +264,9 @@ public class Game  {
     this.player = player;
     this.world = world;
     this.currentLevel = currentLevel;
+  }
+  
+  public Game(){
+    
   }
 }
