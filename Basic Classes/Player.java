@@ -26,8 +26,8 @@ import java.awt.image.BufferedImage;
 public class Player extends Entities
 {
   private int speed = 30, speedX = 0, lives = DEFAULT_LIVES;
-  static final int DEFAULT_LIVES = 30;
-  
+  static final int DEFAULT_LIVES = 10;
+  private String name;
   private Score score;
   private boolean isTangible = true;
   
@@ -37,18 +37,24 @@ public class Player extends Entities
    * @return A boolean value representing whether or not the Player's character is tangible.
    */
   
-  public boolean getTangibility ()
+  public boolean getTan ()
   {
     return isTangible;
   }
+  public String getName(){
+    return name;
+  }
   
+  public void setName(String a){
+    name=a;
+  }
   /* Description of setTangibility ()
    * A method which accepts a boolean parameter which changes the tangibility of the Player's character.
    * 
    * @param newTangibility A boolean value which represents the new value of isTangible.
    */
   
-  public void setTangibility (boolean newTangibility)
+  public void setTan (boolean newTangibility)
   {
     isTangible = newTangibility;
   }
@@ -127,10 +133,11 @@ public class Player extends Entities
    * @param sprite A BufferedImage which is the visual representation of the sprite, or a picture of the sprite.
    */
   
-  public Player (int x, int y, boolean isTangible, BufferedImage sprite)
+  public Player (int x, int y, boolean isTangible, BufferedImage sprite,String name)
   {
     super (x, y, sprite);
     this.isTangible = isTangible;
+    this.name=name;
   }
   
   /*
@@ -145,11 +152,12 @@ public class Player extends Entities
    * @param score A Score object representing the player's score in the game.
    */
   
-  public Player (int x, int y, boolean isTangible, BufferedImage sprite, int lives, Score score)
+  public Player (int x, int y, boolean isTangible, BufferedImage sprite, int lives, Score score,String name)
   {
     super (x, y, sprite);
     this.isTangible = isTangible;
     this.lives = lives;
     this.score = score;
+    this.name=name;
   }
 }
