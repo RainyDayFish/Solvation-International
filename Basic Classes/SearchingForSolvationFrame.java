@@ -3,7 +3,7 @@ import java.util.*;
 import java.awt.event.*;
 
 public class SearchingForSolvationFrame/* extends JFrame*/ {
-  static Game game;
+  static Game game=new Game();
   static JFrame frame;
   
   public void quitProgram (){
@@ -30,14 +30,15 @@ public class SearchingForSolvationFrame/* extends JFrame*/ {
       public void windowClosing (WindowEvent ev){
         quitProgram ();
       }});
-    
-    List <GameLevel> levels = new ArrayList <GameLevel> ();
-    levels.add (new GameLevel (1, 500, Utilities.CLOUDS_BACKGROUND, true));
-    
-    game = new Game (new Player (250, 0, true, Utilities.TEMP_SPRITE), new World (1,  levels));
-    
+//    
+//    List <GameLevel> levels = new ArrayList <GameLevel> ();
+//    levels.add (new GameLevel (1, 500, Utilities.CLOUDS_BACKGROUND, true));
+//    
+//    game = new Game (new Player (250, 0, true, Utilities.TEMP_SPRITE), new World (1,  levels));
+//    
+//    frame.add (new Draw ());
+    game=Game.run(1,game,"Snail");
     frame.add (new Draw ());
-    
     frame.pack ();
     frame.setVisible (true);
     
