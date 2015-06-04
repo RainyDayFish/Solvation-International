@@ -65,7 +65,7 @@ public final class Game  {
   public static World getWorld(){
     return world;
   }
-  public static void main(String args[]){
+  public static void run(){
     Game g=new Game();
     try{
       BufferedImage character=ImageIO.read(new File("dot.png"));
@@ -234,11 +234,13 @@ public final class Game  {
     this.player = player;
     this.world = world;
     currentLevel= world.getLevel(0);
+    run();
   }
   public Game (Player player, World world,int l) {
     this.player = player;
     this.world = world;
     this.currentLevel=world.getLevel(l);
+    run();
   }
   public Game(){
     

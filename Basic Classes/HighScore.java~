@@ -1,141 +1,137 @@
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
+import java.awt.print.*;
+import java.awt.*;
 
-public class HighScore {
+public class HighScore implements Printable {
   
-  static List <Score> highScore = new ArrayList <Score> ();
+  static ArrayList <Score> highScores = new ArrayList <Score> ();
+  private PrinterJob job = PrinterJob.getPrinterJob ();
   
-  public static List <Score> sortScores (){
-    List <Score> sorted = new ArrayList <Score> (highScore);
-    
-    for (int i = 1; i < sorted.size (); i++){
-      Score score = sorted.get (i);
-      int j;
-      
-      for (j = i - 1; j >= 0 && score.getScore () < sorted.get (j).getScore () ; j--){
-        sorted.set (j + 1, sorted.get (j));
-      }
-      sorted.set (j + 1, score);
-    }
-    
-    return sorted;
-  }
-  
-  public static boolean isHighScore (Score score){
-    if (highScore.isEmpty () || highScore.get (highScore.size () - 1).getScore () < score.getScore ())
+  public boolean isHighScore (Score score){
+    if (highScores.size () < 10 || highScores.get (highScores.size () - 1).compareTo (score) < 0)
       return true;
     return false;
   }
   
-  public static void addScore (Score score){
-    if (highScore.isEmpty ())
-      highScore.add (score);
-    else{
-      highScore.set (highScore.size () - 1, score);
-      sortScores ();
+  public void addHighScore (Score score){
+    if (highScores.size () < 10)
+      highScores.add (score);
+    else
+    {
+      highScores.set (9, score);
+      Collections.sort (highScores);
     }
   }
   
-  public static void saveHighScores (){
+  public void saveHighScores (){
     try {
       PrintWriter out = new PrintWriter (new FileWriter ("high_scores.txt"));
-      out.println ("High Scores - Solvata");
       
-      if (!highScore.isEmpty ()){
-        for (Score i : highScore){
-          out.println (i.getName ());
-          out.println (i.getScore ());
-          out.println (i.getDifficulty ());
-        }
+      for (Score i : highScores){
+        out.println (i.getName ());
+        out.println (i.getDifficulty ());
+        out.println (i.getScore ());
       }
       out.close ();
     }
     catch (IOException e){
-      JOptionPane.showMessageDialog (null, "An error occurred while saving high scores.", "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
   
-  public static void readHighScores (){
-    String msg = "An error with the high scores occurred. A new file will be created.";
-    boolean successful = true;
-    Score score;
-    
+  public boolean readHighScores (){
     try {
       BufferedReader in = new BufferedReader (new FileReader ("high_scores.txt"));
-      String line = in.readLine ();
-      int i = 0;
+      Score x;
       
-      if (line == null || !line.equals ("High Scores - Solvata"))
-        successful = false;
+      highScores.clear ();
       
-      highScore.clear ();
-      
-      if (successful){
-        while (i < 10){
-          score = getScoreFromFile (in);
-          
-          if (score == null || score.getName () == null){ //if the score is null, then the score is invalid. if the score NAME is null, then there are no more scores and the reading should be stopped
-            if (score == null)
-              successful = false;
-            break;
-          }
-          
-          highScore.add (score);
-          i++;
-        }
+      while ((x = readScore (in)) != null && x.getName () != null){
+        highScores.add (x);
       }
+      
+      if (x == null || highScores.get (highScores.size () - 1).compareTo (x) < 0)
+        return false;
     }
     catch (IOException e){
-      msg = "No high scores were found. A new file will be created.";
-      successful = false;
+      return false;
     }
-    
-    if (!highScore.equals (sortScores ()))
-      successful = false;
-    
-    if (!successful){
-      JOptionPane.showMessageDialog (null, msg, "High Score Error", JOptionPane.ERROR_MESSAGE);
-      saveHighScores ();
-    }
+    return true;
   }
   
-  public static Score getScoreFromFile (BufferedReader in){
+  private Score readScore (BufferedReader in){
+    Score score = new Score ("", -1, -1);
     String line = "";
-    Score score = new Score (null, -1, -1);
     
     try {
-      for (int i = 0; i < 3; i++){
-        line = in.readLine ();
-        
-        if (i == 0){ //reading the line of the file storing the player name
-          score.setName (line);
-          
-          if (line == null)//if the name is null, there are no more high scores to read, thus return a Score with a null name
-            return score;
-        }
-        else {
-          if (Integer.parseInt (line) < 0)//if the int is less than 0, then the score is not valid, return null
-            return null;
-          
-          if (i == 1){//if i == 1, then the program is reading the 'score' part of the player score
-            score.setScore (Integer.parseInt (line));
-          }
-          else{
-            if (i == 2){//if i == 2, then the program is reading the difficulty level of the player score
-              if (Integer.parseInt (line) > 2)//if the difficulty level is above 2, then the score is invalid (easy == 0, medium == 1, hard == 2) NOTE THAT the int is already verified to be above 0, based on the earlier check
-                return null;
-              score.setDifficulty (Integer.parseInt (line));
-            }
-          }
-        }
-      }
+      line = in.readLine ();
+      score.setName (line);
+      
+      if (line == null)
+        return score;
+      
+      line = in.readLine ();
+      
+      if (isValidDifficulty (Integer.parseInt (line)))
+        score.setDifficulty (Integer.parseInt (line));
+      else
+        return null;
+      
+      line = in.readLine ();
+      
+      if (isValidScore (Integer.parseInt (line)))
+        score.setScore (Integer.parseInt (line));
+      else
+        return null;
     }
-    catch (IOException | NumberFormatException e){//if an IOException/NumberFormatException occurred, the score is invalid, thus returning null
+    catch (IOException | NumberFormatException e){
       return null;
     }
-    return score;//return the correct score
+    return score;
   }
   
-  private HighScore (){}
+  private boolean isValidName (String name){
+    return name != null;
+  }
+  
+  private boolean isValidDifficulty (int difficulty){
+    return 0 <= difficulty && difficulty <= 2;
+  }
+  
+  private boolean isValidScore (int score){
+    return score >= 0;
+  }
+  
+  public int print (Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException
+  {
+    Graphics g2d = (Graphics2D)g;
+    
+    if (pageIndex > 0)
+      return NO_SUCH_PAGE;
+    
+    g2d.translate ((int) pageFormat.getImageableX (), (int) pageFormat.getImageableY ());
+    
+    g.setFont (new Font ("Arial", Font.BOLD, 18));
+    g.setColor (Color.BLACK);
+    g.drawString ("High Scores", (int) (pageFormat.getImageableHeight () / 2), 100);
+    
+    g.setFont (new Font ("Arial", Font.BOLD, 13));
+    
+    g.drawString ("#", 20, 150);
+    g.drawString ("Name", 50, 150);
+    g.drawString ("World", 125, 150);
+    g.drawString ("Score", 200, 150);
+    
+    g.setFont (new Font ("Arial", Font.PLAIN, 12));
+    
+    for (int i = 0; i < highScores.size (); i++){
+      Score x = highScores.get (i);
+      g.drawString ("#" + (i + 1), 20 , i * 30 + 175);
+      g.drawString (x.getName (), 50 , i * 30 + 175);
+      g.drawString ("" + x.getDifficulty (), 125 , i * 30 + 175);
+      g.drawString ("" + x.getScore (), 200 , i * 30 + 175);
+    }
+    return PAGE_EXISTS;
+  }
 }

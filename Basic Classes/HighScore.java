@@ -134,4 +134,22 @@ public class HighScore implements Printable {
     }
     return PAGE_EXISTS;
   }
+  
+  public boolean printer (){
+    if (job.printDialog ()){
+      try {
+        job.print ();
+        return true;
+      }
+      catch (PrinterException e){
+        return false;
+      }
+    }
+    return false;
+  }
+  
+  public HighScore (){
+    job.setPrintable (this);
+    printer ();
+  }
 }
