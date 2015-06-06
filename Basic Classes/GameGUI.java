@@ -39,10 +39,12 @@ public class GameGUI extends JPanel {
     
     while (SearchingForSolvationFrame.game.getPlayer ().getLives () > 0 /*&& !SearchingForSolvationFrame.game.updateGameState ()*/){
       
-      SearchingForSolvationFrame.game.updateGameState ();
+      if(SearchingForSolvationFrame.game.updateGameState ()){
+      break;
+      }
       Utilities.refreshScreen ();
       
-      System.out.println ("test " + SearchingForSolvationFrame.game.getTimeLeft () + " " + SearchingForSolvationFrame.game.getPlayer ().getLives ());
+      //System.out.println ("test " + SearchingForSolvationFrame.game.getTimeLeft () + " " + SearchingForSolvationFrame.game.getPlayer ().getLives ());
       Utilities.delay (50);
     }
   }
