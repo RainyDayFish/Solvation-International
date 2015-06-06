@@ -18,12 +18,16 @@ public class Game  {
   private World world;
   // private GameLevel currentLevel;
   private int timeLeft, questionNum = 0, currentLevel;
+  private boolean won=false;
+  private int score=0;
   //private JFrame f = new JFrame("Game");
   
   public Player getPlayer (){
     return player;
   }
-  
+  public boolean getWon(){
+  return won;
+  }
   public World getWorld(){
     return world;
   }
@@ -77,9 +81,9 @@ public class Game  {
 //      backgrounds.add(back3);
         
         List<GameLevel> levels=new ArrayList<GameLevel>();
-        levels.add(new GameLevel(1, 500, back1,true));
-        levels.add(new GameLevel(2, 500, back2,true));
-        levels.add(new GameLevel(3, 500, back3,true));
+        levels.add(new GameLevel(1, 500, back1,true,1));
+        levels.add(new GameLevel(2, 500, back2,true,1));
+        levels.add(new GameLevel(3, 500, back3,true,1));
         g=new Game(new Player(250, 0, true, character , charName), new World(1,  levels));
         System.out.println(g.getPlayer().getName());
         //   for(Platform a:Game.getLevel().getPlatforms()){
@@ -93,7 +97,7 @@ public class Game  {
       }
     }else if(worldNum==2){
       try{
-        BufferedImage character=ImageIO.read(new File("dot.png"));
+        BufferedImage character=ImageIO.read(new File(charName+"L.png"));
         BufferedImage back1=ImageIO.read(new File("Weird.png"));
         BufferedImage back2=ImageIO.read(new File("Old Urban.png"));
         BufferedImage back3=ImageIO.read(new File("Mountains.png"));
@@ -104,10 +108,10 @@ public class Game  {
 //      backgrounds.add(back3);
         
         List<GameLevel> levels=new ArrayList<GameLevel>();
-        levels.add(new GameLevel(1, 500, back1,true));
-        levels.add(new GameLevel(2, 500, back2,true));
-        levels.add(new GameLevel(3, 500, back3,true));
-        g=new Game(new Player(250, 0, true, character ,"dot"), new World(2,  levels));
+        levels.add(new GameLevel(1, 500, back1,true,2));
+        levels.add(new GameLevel(2, 500, back2,true,2));
+        levels.add(new GameLevel(3, 500, back3,true,2));
+        g=new Game(new Player(250, 0, true, character ,charName), new World(2,  levels));
         //   for(Platform a:Game.getLevel().getPlatforms()){
         // System.out.println(a.getX());
         //  }
@@ -143,6 +147,8 @@ public class Game  {
     if (landedWhere() != -1 && world.getLevel (currentLevel).getPlatforms ().get (landedWhere()).getText ().equals (world.getLevel (currentLevel).getQuestions ().get (questionNum).getAnswer ())){
       //timeLeft = world.getLevel (currentLevel).getTimeLimit ();
       //questionNum++;
+      score+=timeLeft;
+      player.setScore(new Score("",score,world.getDifficultyLevel(), currentLevel+1));
       return true;
     }
     return false;
@@ -168,19 +174,47 @@ public class Game  {
       }
       else {
         if (correctLanded ()){
-          System.out.println ("correct");
+         // System.out.println ("correct");
           
           timeLeft = world.getLevel (currentLevel).getTimeLimit ();
           questionNum++;
+          System.out.println(" Score"+ player.getScore().getScore());
           
-          if(hasWonLevel ()){
-            return true;
+          //System.out.println("Question Num:"+questionNum);
+         // System.out.println(questionNum >= world.getLevel (currentLevel).getQuestions ().size ());
+          if(hasWonLevel()){
+                  System.out.println("New Level!");
+              questionNum=0;
+              if(world.getLevels().get(currentLevel).getLevelNum()<world.getLevels().size()){
+                currentLevel=world.getLevels().get(currentLevel).getLevelNum();
+                player.setScore(new Score("",score,world.getDifficultyLevel(), currentLevel+1));
+                Utilities.refreshScreen ();
+                try {
+                  Thread.sleep(1000);
+                } catch (Exception e) {
+                  System.out.println(e);
+                }
+                player.setLives(player.getLives()-1);
+                player.setY(250);
+                player.setX(world.getLevels().get(currentLevel).getPlatforms().get(world.getLevels().get(currentLevel).getLowestPlatform()).getX());
+                player.setSpeed(25);
+                try {
+                  Thread.sleep(1000);
+                } catch (Exception e) {
+                  System.out.println(e);
+                }
+              }else{
+                return true;
+              }
+//               questionNum=0;
+//            return true;
           }
         }
-        
+        if(landedWhere()>-1){
         System.out.println ("Landed!!!!: " + player.getSpeed () + " " + landedWhere () + " " + world.getLevel (currentLevel).getPlatforms ().get (landedWhere ()).getText () + " Lives: " + player.getLives ());
         System.out.println (timeLeft);
-        
+      //  System.out.println(questionNum+" "+world.getLevels().get(currentLevel).getQuestions().size());
+        }
         //player.setSpeed (player.getSpeed () * -1);
         player.setSpeed(-50);
       }
@@ -208,14 +242,18 @@ public class Game  {
       player.setSpeedX (0);
   }
   
-  public void updateGameState (){
+  public boolean updateGameState (){
     timeLeft--;
     player.setY (player.getY () + player.getSpeed ());
     
     updatePlayerXPosition ();
     
-    if (updateLanding ())
-      return;
+    if (updateLanding ()){
+   // if (true){
+      System.out.println("Yes I leave");
+      won=true;
+      return true;
+    }
     
     if (timeLeft < 1){
       player.setLives (player.getLives () - 1);
@@ -228,16 +266,16 @@ public class Game  {
     
     updatePlayerSpeed ();
     world.getLevel (currentLevel).cleanPlatform ();
-    
-<<<<<<< HEAD
-<<<<<<< HEAD
+    return false;
+//<<<<<<< HEAD
+//<<<<<<< HEAD
     //Utilities.delay (50);
-=======
+//=======
     // Utilities.delay (10);
->>>>>>> origin/master
-=======
+//>>>>>>> origin/master
+//=======
     // Utilities.delay (10);
->>>>>>> origin/master
+//>>>>>>> origin/master
   }
   
   public /*synchronized*/ void platformShift (){
