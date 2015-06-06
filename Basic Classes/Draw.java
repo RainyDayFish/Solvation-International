@@ -17,12 +17,13 @@ public class Draw extends JPanel implements KeyListener{
   BufferedImage left;
   BufferedImage right;
   public Draw() {
+      this.requestFocus();
     setBorder (BorderFactory.createLineBorder (Color.BLACK));
     addKeyListener (this);
   }
   
   public Dimension getPreferredSize() {
-    return new Dimension (Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE); ////////////////////////////////////////WHY IS THIS + 50 ////////////////////////////////////////////////////////////////////////////
+    return new Dimension (Utilities.SCREEN_W, Utilities.SCREEN_H); ////////////////////////////////////////WHY IS THIS + 50 ////////////////////////////////////////////////////////////////////////////
   }
   
   public void paintComponent (Graphics g){
@@ -42,17 +43,19 @@ public class Draw extends JPanel implements KeyListener{
       // System.out.println(getX());
     }
     
-    if(SearchingForSolvationFrame.game.landedWhere() > -1){
-      g.drawString("" + SearchingForSolvationFrame.game.landedWhere (), list.get (SearchingForSolvationFrame.game.landedWhere ()).getX (), list.get (SearchingForSolvationFrame.game.landedWhere ()).getY ());
-    }
-    
+//    if(SearchingForSolvationFrame.game.landedWhere() > -1){
+//      g.drawString("" + SearchingForSolvationFrame.game.landedWhere (), list.get (SearchingForSolvationFrame.game.landedWhere ()).getX (), list.get (SearchingForSolvationFrame.game.landedWhere ()).getY ());
+//    }
+//    
     for (int i = 0; i < list.size (); i++){
       Platform a = list.get (i);
+      if(a.getText()!=null){
       g.drawString (a.getText (), a.getX (), a.getY ());
+    }
     }
     
     g.setColor (Color.WHITE);
-    g.fillRect(0, Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE, Utilities.SCREEN_SIZE); //////// LAST PARAMETER USED TO BE 800, CHANGED TO 750 WHICH IS THE SCREEN SIZE
+    g.fillRect(0, Utilities.SCREEN_H-50, Utilities.SCREEN_W, Utilities.SCREEN_H); //////// LAST PARAMETER USED TO BE 800, CHANGED TO 750 WHICH IS THE SCREEN SIZE
     
     g.setColor (Color.BLACK);
     g.setFont (new Font ("Arial", Font.PLAIN, 12));
@@ -110,7 +113,7 @@ public class Draw extends JPanel implements KeyListener{
   }
   
   public void keyTyped (KeyEvent e) {
-    System.out.println ("KEY Released: " + e.getKeyChar ());
+   // System.out.println ("KEY Released: " + e.getKeyChar ());
     setD (e);
     if((int)(e.getKeyCode ()) == KeyEvent.VK_KP_DOWN || (e.getKeyCode ()) == KeyEvent.VK_DOWN || e.getKeyChar () == 's'){
       //if(SearchingForSolvationFrame.game.landedWhere () > -1){
@@ -141,4 +144,5 @@ public class Draw extends JPanel implements KeyListener{
       SearchingForSolvationFrame.game.getPlayer ().setTan (true);
     }
   }
+
 }

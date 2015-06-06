@@ -16,7 +16,7 @@
 public class Score implements Comparable
 {
   private String name;
-  private int difficulty, score;
+  private int difficulty, score, level;
   
   /* Description of getName ()
    * Returns the String representing the name of the user who has achieved the score represented by a Score object.
@@ -100,10 +100,11 @@ public class Score implements Comparable
    * @param level An int value representing the level played by the player.
    */
   
-  public Score (String name, int score, int difficulty)
+  public Score (String name, int score, int difficulty, int level)
   {
     this.name = name;
     this.score = score;
     this.difficulty = difficulty;
+    this.level=level;
   }
 }

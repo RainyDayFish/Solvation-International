@@ -73,7 +73,7 @@ public class HighScore implements Printable {
   }
   
   private Score readScore (/*BufferedReader in*/){
-    Score score = new Score ("", -1, -1);
+    Score score = new Score ("", -1, -1, -1);
     String line = "";
     
     try {

@@ -138,6 +138,7 @@ public class Player extends Entities
     super (x, y, sprite);
     this.isTangible = isTangible;
     this.name=name;
+    score=new Score(name,0,1,1);
   }
   
   /*

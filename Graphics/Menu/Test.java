@@ -19,6 +19,7 @@ public class Test {
     f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
     f.pack ();
     f.setVisible (true);
+      
     
     System.out.println (menu.getChoice ());
   }

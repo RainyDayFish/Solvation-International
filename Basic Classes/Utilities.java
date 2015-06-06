@@ -1,9 +1,12 @@
 import java.awt.image.BufferedImage;
 import java.io.*;
+import javax.swing.ImageIcon;
 import javax.imageio.*;
-
+import java.applet.Applet;
+import java.applet.AudioClip;
 public class Utilities {
-  static final int SCREEN_SIZE = 750;
+  static final int SCREEN_H = 800;
+   static final int SCREEN_W = 750;
   
   static final BufferedImage PLAY_BUTTON = getImage ("play.png");
   static final BufferedImage BACK_BUTTON = getImage ("back.png");
@@ -11,6 +14,15 @@ public class Utilities {
   static final BufferedImage HIGH_SCORE_BUTTON = getImage ("scores.png");
   static final BufferedImage SETTINGS_BUTTON = getImage ("settings.png");
   static final BufferedImage QUIT_BUTTON = getImage ("quit.png");
+  static final BufferedImage PLUS_BUTTON = getImage ("plus.png");
+  static final BufferedImage SNAIL_BUTTON = getImage ("snailButton.png");
+  static final BufferedImage DOT_BUTTON = getImage ("DotButton.png");
+  static final BufferedImage BIO_BUTTON = getImage ("BioButton.png");
+  static final BufferedImage SOUND_BUTTON = getImage ("SoundButton.png");
+  static final BufferedImage CANADA_BUTTON = getImage ("Canada.png");
+  static final BufferedImage ASIA_BUTTON = getImage ("Asia.png");
+  static final BufferedImage WORLD_BUTTON = getImage ("World.png");
+  static final BufferedImage TRAVEL_BUTTON = getImage ("Travel.png");
   
   static final BufferedImage CLEAR_BUTTON = getImage ("trash.png");;
   static final BufferedImage NEW_GAME_BUTTON = getImage ("new.png");;
@@ -27,8 +39,12 @@ public class Utilities {
   static final BufferedImage DEFAULT_PLATFORM = getImage ("platform.png");
   static final BufferedImage ANSWER_PLATFORM = getImage ("platformAnswer.png");
   static final BufferedImage HEART_ICON = getImage ("Heart.png");
-  
-  
+  static final ImageIcon SPLASH= new ImageIcon("Splash Screen.gif");
+  static final BufferedImage HELP= getImage("Help Background.png");
+  static final BufferedImage GOODBYE=getImage("Goodbye.png");
+  static final BufferedImage BIO=getImage("bio.png");
+ // static final AudioClip BMUSIC=Applet.newAudioClip(new Url("file:\C:\Users\ryan\Downloads\Solvation-International-master MAIN MENU\Solvation-International-master MAIN MENU\Solvation-International-master\Basic Classes\The Weeknd - Earned It .mp3"));
+
   //*********************** ADD SPRITE IMAGE PATHS *******************************************//
   // static final BufferedImage BALL_SPRITE;
   // static final BufferedImage SNAIL_SPRITE;

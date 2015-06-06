@@ -27,6 +27,7 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
   
   private void displayMenu (Graphics g){
     int [] indexes = {start, current, end};
+    
     drawBackground (g);
     
     for (int i = 0; i < indexes.length ; i++){
@@ -35,7 +36,7 @@ public class CoverFlowMenu extends JPanel implements KeyListener, MouseListener 
   }
   
   private void drawBackground (Graphics g){
-    ((Graphics2D)g).setPaint (new GradientPaint ( 0, 0, Color.BLACK, 0, 750, new Color (40, 40, 40)));
+    ((Graphics2D)g).setPaint (new GradientPaint( 0, 0, Color.BLACK, 0, 750, new Color (40, 40, 40)));
     g.fillRect(0, 0, 750, 750);
     
     g.setFont (new Font ("Arial", Font.PLAIN, 45));

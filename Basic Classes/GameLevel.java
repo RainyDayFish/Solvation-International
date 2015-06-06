@@ -121,7 +121,7 @@ public class GameLevel
     Platform p;
     
     for (int i = 0; i < 200 - (difficultyLevel * 25); i++){
-      p = new Platform ((int)(Math.random() * Utilities.SCREEN_SIZE), (int)(Math.random() * 100 + i * 100), "", Utilities.DEFAULT_PLATFORM);
+      p = new Platform ((int)(Math.random() * Utilities.SCREEN_W), (int)(Math.random() * 100 + i * 100), "", Utilities.DEFAULT_PLATFORM);
       
       if (platforms.size() == 0 || !exists (p)){
         // System.out.println(p.getX());
@@ -132,7 +132,7 @@ public class GameLevel
     for (int f = 0; f < questions.size (); f++){
       //pic=ImageIO.read(new File(questions.get(f).getAnswer()));
       //pic= null;
-      p = new Platform ((int)(Math.random() * Utilities.SCREEN_SIZE), (int)(Math.random() * Utilities.SCREEN_SIZE),questions.get (f).getAnswer (), Utilities.ANSWER_PLATFORM);
+      p = new Platform ((int)(Math.random() * Utilities.SCREEN_W), (int)(Math.random() * Utilities.SCREEN_H),questions.get (f).getAnswer (), Utilities.ANSWER_PLATFORM);
       
       if(!exists (p)){
         platforms.add (p);
@@ -146,9 +146,9 @@ public class GameLevel
   /* Description of inputQuestions ()
    * This method assigns the values of questions from an external .txt file.
    */
-  public void inputQuestions (int diffLevel){
+  public void inputQuestions (int diffLevel, int worldNum){
     try{
-      BufferedReader open = new BufferedReader(new FileReader ("Questions" + diffLevel + ".txt"));
+      BufferedReader open = new BufferedReader(new FileReader ("Questions"+worldNum+ diffLevel + ".txt"));
       String temp;
       String answer;
       
@@ -227,13 +227,13 @@ public class GameLevel
   public /*synchronized*/ void cleanPlatform (){
     if(platforms.size () > 150){
       for(int f = 0; f < platforms.size (); f++){
-        if(platforms.get (f).getY () > 0 && platforms.get(f).getY () < Utilities.SCREEN_SIZE){
+        if(platforms.get (f).getY () > 0 && platforms.get(f).getY () < Utilities.SCREEN_H-50){
           platforms.remove (f);
         }
       }
     }
     for(Platform a : platforms){
-      if (a.getY () > Utilities.SCREEN_SIZE){
+      if (a.getY () > Utilities.SCREEN_H-50){
         a.setY (getHighest () - a.getY () + /*Utilities.SCREEN_SIZE*/ 700); ///////////////////////////////////////////////////////////////////////////WHY IS THIS 700?
       }
     }
@@ -249,7 +249,7 @@ public class GameLevel
    * @param background A BufferedImage which visually represents the background onto the screen.
    */
   
-  public GameLevel (int levelNum, int timeLimit, BufferedImage background, boolean playable)
+  public GameLevel (int levelNum, int timeLimit, BufferedImage background, boolean playable, int worldNum)
   {
     this.levelNum = levelNum;
     this.timeLimit = timeLimit;
@@ -257,6 +257,6 @@ public class GameLevel
     this.playable = playable;
     
     generatePlatforms (levelNum);
-    inputQuestions(levelNum);
+    inputQuestions(levelNum, worldNum);
   }
 }
