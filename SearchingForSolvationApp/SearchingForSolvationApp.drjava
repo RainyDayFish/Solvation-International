@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<drjava version="drjava-20140826-r5761">
+  <project autorefresh="true" build="bin/" main="SearchingForSolvationApp" root="src/" work="src/">
+    <createjar file=""/>
+    <source>
+      <file active="true" name="Game.java" package="" timestamp="07-Jun-2015 18:20:01">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="SearchingForSolvationApp.java" package="" timestamp="07-Jun-2015 11:19:00">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Question.java" package="" timestamp="07-Jun-2015 11:19:01">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Platform.java" package="" timestamp="07-Jun-2015 11:19:01">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Entities.java" package="" timestamp="07-Jun-2015 11:19:03">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="GameLevel.java" package="" timestamp="07-Jun-2015 11:45:21">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="CoverFlowMenuItem.java" package="" timestamp="07-Jun-2015 11:57:57">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="GameGUI.java" package="" timestamp="07-Jun-2015 11:58:39">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="World.java" package="" timestamp="07-Jun-2015 12:47:14">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Score.java" package="" timestamp="07-Jun-2015 15:38:13">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Player.java" package="" timestamp="07-Jun-2015 16:22:28">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Music.java" package="" timestamp="07-Jun-2015 17:05:17">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="CoverFlowMenu.java" package="" timestamp="07-Jun-2015 19:33:47">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Draw.java" package="" timestamp="07-Jun-2015 19:34:11">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="DrawImage.java" package="" timestamp="07-Jun-2015 19:43:36">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="Utilities.java" package="" timestamp="07-Jun-2015 19:48:43">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="SearchingForSolvationFrame.java" package="" timestamp="07-Jun-2015 19:49:42">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="DrawPic.java" package="" timestamp="07-Jun-2015 20:00:29">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+      <file name="HighScore.java" package="" timestamp="07-Jun-2015 20:09:13">
+        <select from="9014" to="9014"/>
+        <scroll column="4793" row="0"/>
+      </file>
+    </source>
+    <included/>
+    <excluded/>
+    <collapsed/>
+    <classpath/>
+    <breakpoints/>
+    <watches/>
+    <bookmarks/>
+    <preferences/>
+  </project>
+</drjava>
